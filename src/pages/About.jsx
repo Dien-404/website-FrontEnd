@@ -5,7 +5,7 @@ export default function About(props) {
     return (
         <PageModule page="About">
             <>
-                <div className="h-full bg-white flex flex-col p-2">
+                <div className="h-full flex flex-col p-2 sm:p-5">
                     {/* title */}
                     <div>
                         <div className="text-xl font-bold tracking-wide border-b border-gray-400 select-none w-full sm:w-max">

@@ -13,7 +13,7 @@ export default function Feedback(props) {
     return (
         <PageModule page="Feedback">
             <>
-                <div className="w-full h-full flex justify-center items-center md:flex-row md:justify-evenly bg-white p-2">
+                <div className="w-full h-full flex justify-center items-center md:flex-row md:justify-evenly p-2">
                     <div className="hidden md:flex justify-center items-center grow max-w-xs lg:max-w-sm h-full">
                         {/* 左侧插画 */}
                         <svg
@@ -382,7 +382,7 @@ export default function Feedback(props) {
                         </svg>
                     </div>
                     {/* Show*/}
-                    <div className="flex flex-col justify-center items-center bg-white/60 w-full sm:w-auto md:max-w-md lg:max-w-lg sm:p-5 md:shadow-xl md:rounded-md">
+                    <div className="flex flex-col justify-center items-center bg-white/60 w-full sm:w-auto md:max-w-md lg:max-w-lg sm:p-5 md:shadow-xl md:rounded-md duration-500">
                         {/* title */}
                         <div className="flex justify-center text-xl font-bold tracking-wide select-none mb-5 sm:mb-10">
                             纳谏如流

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Narbar from "./Narbar";
 import ICP from "./ICP";
 
 export default function PageModule(props) {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     const [menu, setMenu] = useState(false);
     return (
         <div
@@ -15,11 +18,7 @@ export default function PageModule(props) {
             <div
                 className={`w-full h-full flex flex-col justify-between grow mt-11 sm:mt-14 overflow-y-scroll sm:overflow-visible`}
             >
-                <div className="grow bg-gray-100 sm:p-3">
-                    <div className="bg-white h-full sm:p-2">
-                        {props.children}
-                    </div>
-                </div>
+                <div className="grow bg-white">{props.children}</div>
                 {/* ICP */}
                 <ICP />
             </div>
