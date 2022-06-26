@@ -5,7 +5,7 @@ import ICP from "./ICP";
 export default function PageModule(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+    });
     const [menu, setMenu] = useState(false);
     return (
         <div
