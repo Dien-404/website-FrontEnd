@@ -51,7 +51,7 @@ export default function Home(props) {
         <PageModule page="Home">
             <>
                 {/* 首页欢迎展示 */}
-                <div className="sm:px-20 lg:px-32 xl:px-40 duration-300 h-64 select-none mb-5">
+                <div className="sm:px-24 lg:px-32 xl:px-40 duration-300 h-64 select-none mb-5">
                     <div className="flex flex-col w-full h-full px-5">
                         <div
                             className="flex items-end h-full font-serif text-6xl text-indigo-300 capitalize"
@@ -67,7 +67,7 @@ export default function Home(props) {
                     </div>
                 </div>
                 {/* 主要内容部分 */}
-                <div className="sm:px-20 lg:px-32 xl:px-40 py-1 duration-300 bg-gray-50 select-none">
+                <div className="sm:px-24 lg:px-32 xl:px-40 py-1 duration-300 bg-gray-50 select-none">
                     <div className="flex justify-center">*精选*</div>
                     {/* 功能板块 */}
                     <div className="flex justify-end">

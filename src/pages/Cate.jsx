@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PageModule from "../components/PageModule";
+import CateBlock from "../components/CateBlock";
 
 export default function Cate(props) {
     // 响应式帖子坐标
@@ -7,7 +8,13 @@ export default function Cate(props) {
         Front: undefined,
         Back: undefined,
     });
+    const [cateCount, setCateCount] = useState(undefined);
     useEffect(() => {
+        setCateCount([
+            { kind: "前端", cateId: 1, cate: "React", count: 4 },
+            { kind: "前端", cateId: 2, cate: "JavaScript", count: 4 },
+            { kind: "后端", cateId: 3, cate: "Mysql", count: 0 },
+        ]);
         let front = document.getElementById("Front");
         let back = document.getElementById("Back");
         setPosition({
@@ -34,7 +41,7 @@ export default function Cate(props) {
                     <div className="py-2 sm:py-4">
                         {/* title */}
                         <div
-                            className="sticky top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-20 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none sm:cursor-pointer"
+                            className="sticky top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none sm:cursor-pointer"
                             id="Front"
                             onClick={() => {
                                 scrollToTag("Front");
@@ -42,16 +49,25 @@ export default function Cate(props) {
                         >
                             前端 Front-end
                         </div>
-                        <div className="h-96">
-                            <div className="h-40">halo1</div>
-                            <div className="h-40">halo2</div>
+                        {/* content */}
+                        <div className="sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 h-auto duration-500">
+                            {cateCount?.map(
+                                (item) =>
+                                    item.kind === "前端" && (
+                                        <CateBlock
+                                            cateId={item.cateId}
+                                            cate={item.cate}
+                                            count={item.count}
+                                        />
+                                    )
+                            )}
                         </div>
                     </div>
                     {/* 后端内容展示 */}
                     <div className="py-2 sm:py-4">
                         {/* title */}
                         <div
-                            className="sticky top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-20 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none sm:cursor-pointer"
+                            className="sticky top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none sm:cursor-pointer"
                             id="Back"
                             onClick={() => {
                                 scrollToTag("Back");
@@ -59,9 +75,18 @@ export default function Cate(props) {
                         >
                             后端 Back-end
                         </div>
-                        <div className="h-96">
-                            <div className="h-40">halo1</div>
-                            <div className="h-40">halo2</div>
+                        {/* content */}
+                        <div className="sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 h-auto duration-500">
+                            {cateCount?.map(
+                                (item) =>
+                                    item.kind === "后端" && (
+                                        <CateBlock
+                                            cateId={item.cateId}
+                                            cate={item.cate}
+                                            count={item.count}
+                                        />
+                                    )
+                            )}
                         </div>
                     </div>
                 </div>
