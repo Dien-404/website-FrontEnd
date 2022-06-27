@@ -90,12 +90,15 @@ export default function CateBlock(props) {
                         style={{ maxWidth: "27.5rem" }}
                     >
                         {/* picture */}
-                        <div
-                            className="h-64 sm:h-48 bg-cover bg-center rounded-t"
-                            style={{
-                                backgroundImage: `url(${item.picture})`,
-                            }}
-                        ></div>
+                        <div className="h-64 sm:h-48 overflow-hidden">
+                            <div
+                                className="h-full bg-cover bg-center rounded-t duration-500 hover:scale-125"
+                                style={{
+                                    backgroundImage: `url(${item.picture})`,
+                                }}
+                            />
+                        </div>
+
                         {/* introduce */}
                         <div className="px-4 py-1 overflow-hidden">
                             {/* title */}
