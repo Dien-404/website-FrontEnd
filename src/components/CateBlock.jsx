@@ -66,28 +66,31 @@ export default function CateBlock(props) {
     return (
         <div className="flex flex-col mt-6" key={props.cateId}>
             {/* title && More */}
-            <div className="flex flex-row items-end justify-between px-1">
-                <div className="text-xl font-extrabold select-none">
-                    {props.cate}
-                </div>
-                {/* More */}
-                <div
-                    className={`text-sm px-1 ${
-                        props.count > 4
-                            ? "text-indigo-500 cursor-pointer"
-                            : "text-gray-300 cursor-default"
-                    }`}
-                >
-                    全部＋
+            <div className="flex justify-center items-center">
+                <div className="flex flex-row items-end justify-between px-1 w-full max-w-md sm:max-w-none">
+                    <div className="text-xl font-extrabold select-none">
+                        {props.cate}
+                    </div>
+                    {/* More */}
+                    <div
+                        className={`text-sm px-1 ${
+                            props.count > 4
+                                ? "text-indigo-500 cursor-pointer"
+                                : "text-gray-300 cursor-default"
+                        }`}
+                    >
+                        全部＋
+                    </div>
                 </div>
             </div>
+
             {/* content */}
             <ScrollBeauty className="flex flex-col sm:flex-row items-center sm:justify-between pt-3 pb-1 overflow-x-auto">
                 {data?.map((item) => (
                     <div
                         key={item.postId}
                         className="flex flex-col bg-white w-full sm:w-72 sm:flex-shrink-0 rounded mb-3 sm:mb-0 sm:mx-1"
-                        style={{ maxWidth: "27.5rem" }}
+                        style={{ maxWidth: "28rem" }}
                     >
                         {/* picture */}
                         <div className="h-64 sm:h-48 overflow-hidden">
