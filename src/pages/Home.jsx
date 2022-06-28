@@ -101,7 +101,7 @@ export default function Home(props) {
                     <div className="">
                         {/* 遍历推荐列表 */}
                         {recommendation.map((item) => (
-                            <div className="h-auto flex flex-col p-2 mb-5 bg-white rounded duration-300">
+                            <div className="h-auto flex flex-col px-3 sm:p-2 mb-5 bg-white rounded duration-300">
                                 {/* Title && Tag */}
                                 <div className="flex flex-col sm:flex-row mb-4">
                                     {/* Title */}
