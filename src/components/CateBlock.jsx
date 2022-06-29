@@ -3,10 +3,15 @@ import styled from "styled-components";
 
 const ScrollBeauty = styled.div`
     ::-webkit-scrollbar {
-        height: 0.3125rem;
+        width: 0.3125rem;
+        height: 0.375rem;
     }
     ::-webkit-scrollbar-thumb {
-        background-color: gray;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 0.3125rem;
+        :hover {
+            background-color: gray;
+        }
     }
     ::-webkit-scrollbar-button {
         display: none;
