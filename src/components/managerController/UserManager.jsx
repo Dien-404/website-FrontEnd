@@ -19,7 +19,10 @@ const ScrollBeauty = styled.div`
 `;
 
 export default function UserManager(props) {
+    // 排序
     const [sortSeleted, setSortSeleted] = useState("id");
+    // 降序 or 升序
+    const [sortOrder, setSortOrder] = useState("up");
     const [userData, setUserData] = useState([
         {
             uid: 11234,
@@ -182,6 +185,7 @@ export default function UserManager(props) {
             email: "yamahadejia@163.com",
         },
     ]);
+
     return (
         <div className="flex flex-col w-full h-full overflow-auto">
             {/* 功能项 */}
@@ -197,7 +201,7 @@ export default function UserManager(props) {
                 </div>
             </div>
             {/* 展示界面 */}
-            <div className="flex flex-col h-full max-h-screen overflow-hidden m-1">
+            <div className="flex flex-col h-full max-h-screen overflow-auto m-1">
                 {/* 静态数据类型展示 */}
                 <div className="flex flex-row py-1 pr-20 bg-gray-200 text-sm select-none">
                     <div className="px-1 mx-2 w-12 shrink-0 cursor-pointer">

@@ -10,6 +10,7 @@ export default function Admin() {
         {
             logo: (
                 <svg
+                    className="shrink-0"
                     t="1656399026849"
                     viewBox="0 0 1026 1024"
                     version="1.1"
@@ -36,6 +37,7 @@ export default function Admin() {
         {
             logo: (
                 <svg
+                    className="shrink-0"
                     t="1656399936361"
                     viewBox="0 0 1024 1024"
                     version="1.1"
@@ -57,6 +59,7 @@ export default function Admin() {
         {
             logo: (
                 <svg
+                    className="shrink-0"
                     t="1656399867189"
                     viewBox="0 0 1024 1024"
                     version="1.1"
@@ -83,6 +86,7 @@ export default function Admin() {
         {
             logo: (
                 <svg
+                    className="shrink-0"
                     t="1656399960179"
                     viewBox="0 0 1024 1024"
                     version="1.1"
@@ -117,10 +121,11 @@ export default function Admin() {
     }, [funcSeleted]);
 
     return (
-        <div className="flex flex-col h-screen bg-gray-200">
+        <div className="flex flex-col min-h-screen max-h-screen bg-gray-200 overflow-hidden select-none">
             {/* Admin Narbar */}
-            <div className="flex flex-row justify-between items-center h-14 bg-black text-white select-none">
+            <div className="flex flex-row justify-between items-center h-14 shrink-0 px-1 bg-black text-white overflow-hidden">
                 {/* website logo */}
+                {/* 点击刷新页面 */}
                 <div
                     className="p-2 font-serif font-bold"
                     onClick={() => {
@@ -133,13 +138,17 @@ export default function Admin() {
                 {/* Account && check */}
                 <div className="cursor-pointer p-2">账户</div>
             </div>
-            {/* main content */}
-            <div className="grow flex flex-row m-2 p-1 overflow-hidden">
+            {/* Menu && content Title && Outlet */}
+            <div className="grow flex flex-row m-1 p-1 overflow-hidden">
                 {/* Menu */}
-                <div className="hidden sm:flex flex-col items-center w-52 mr-2 bg-white rounded select-none">
+                <div
+                    className="flex flex-col items-center bg-white rounded overflow-auto"
+                    style={{ minWidth: "6.25rem" }}
+                >
                     {/* welcome */}
-                    <div className="text-lg font-bold">welcome</div>
+                    <div className="flex text-lg font-bold">welcome</div>
                     {/* menu funcid div */}
+                    {/* 功能模块渲染 */}
                     <div className="flex flex-col w-full">
                         {func?.map((item) => (
                             <div
@@ -149,26 +158,35 @@ export default function Admin() {
                                     setFuncSeleted(item.funcId);
                                 }}
                             >
+                                {/* 功能logo */}
                                 <div className="flex flex-row text-sm">
                                     {item.logo}
-                                    <div className="ml-2">{item.funcName}</div>
+                                    {/* 功能名字 */}
+                                    <div className="mx-2">{item.funcName}</div>
                                 </div>
                                 <div>&gt;</div>
                             </div>
                         ))}
                     </div>
                 </div>
+                {/* 分离带 */}
+                <div className="w-4"></div>
                 {/* show content */}
-                <div className="flex flex-col grow ml-2 p-1 bg-white rounded">
-                    <div className="bg-gray-300 p-1">
-                        {func[funcSeleted - 1]?.funcName}
+                <div className="flex flex-col grow bg-white rounded overflow-auto">
+                    <div className="flex flex-col grow p-1 overflow-auto">
+                        {/* Content Title */}
+                        <div className="bg-gray-300 p-1">
+                            {func[funcSeleted - 1]?.funcName}
+                        </div>
+                        {/* Outlet */}
+                        <div className="grow p-1 overflow-hidden">
+                            {/* <WebsiteManager /> */}
+                            <UserManager />
+                            {/* <PostManager /> */}
+                            {/* <ConsumeManager /> */}
+                        </div>
                     </div>
-                    <div className="grow p-1  overflow-hidden">
-                        <WebsiteManager />
-                        {/* <UserManager /> */}
-                        {/* <PostManager /> */}
-                        {/* <ConsumeManager /> */}
-                    </div>
+
                     {/* {funcSeleted === 1 ? (
                         <WebsiteManager />
                     ) : funcSeleted === 2 ? (
