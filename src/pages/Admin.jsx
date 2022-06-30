@@ -1,8 +1,26 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import WebsiteManager from "../components/managerController/WebsiteManager";
 import UserManager from "../components/managerController/UserManager";
 import PostManager from "../components/managerController/PostManager";
 import ConsumeManager from "../components/managerController/ConsumeManager";
+
+const ScrollBeauty = styled.div`
+    ::-webkit-scrollbar {
+        width: 0.5rem;
+        height: 0.3125rem;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 0.3125rem;
+        :hover {
+            background-color: gray;
+        }
+    }
+    ::-webkit-scrollbar-button {
+        display: none;
+    }
+`;
 
 export default function Admin() {
     // 功能模块 && 方便管理功能项
@@ -141,7 +159,7 @@ export default function Admin() {
             {/* Menu && content Title && Outlet */}
             <div className="grow flex flex-row m-1 p-1 overflow-hidden">
                 {/* Menu */}
-                <div
+                <ScrollBeauty
                     className="flex flex-col items-center bg-white rounded overflow-auto"
                     style={{ minWidth: "6.25rem" }}
                 >
@@ -168,7 +186,7 @@ export default function Admin() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </ScrollBeauty>
                 {/* 分离带 */}
                 <div className="w-4"></div>
                 {/* show content */}
@@ -179,11 +197,13 @@ export default function Admin() {
                             {func[funcSeleted - 1]?.funcName}
                         </div>
                         {/* Outlet */}
-                        <div className="grow p-1 overflow-hidden">
-                            {/* <WebsiteManager /> */}
-                            <UserManager />
-                            {/* <PostManager /> */}
-                            {/* <ConsumeManager /> */}
+                        <div className="flex grow p-1 overflow-hidden">
+                            <ScrollBeauty className="flex grow overflow-auto">
+                                {/* <WebsiteManager /> */}
+                                <UserManager />
+                                {/* <PostManager /> */}
+                                {/* <ConsumeManager /> */}
+                            </ScrollBeauty>
                         </div>
                     </div>
 

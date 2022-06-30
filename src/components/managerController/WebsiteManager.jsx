@@ -1,26 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-
-const ScrollBeauty = styled.div`
-    ::-webkit-scrollbar {
-        width: 0.5rem;
-        height: 0.3125rem;
-    }
-    ::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 0.3125rem;
-        :hover {
-            background-color: gray;
-        }
-    }
-    ::-webkit-scrollbar-button {
-        display: none;
-    }
-`;
 
 export default function WebsiteManager(props) {
     return (
-        <ScrollBeauty className={`flex flex-col w-full h-full overflow-auto`}>
+        <div className={`flex flex-col w-full h-full`}>
             {/* 上层总览 */}
             <div
                 className="h-1/2 flex flex-col sm:flex-row"
@@ -53,6 +35,6 @@ export default function WebsiteManager(props) {
                     最不受欢迎（不喜欢）帖子榜单
                 </div>
             </div>
-        </ScrollBeauty>
+        </div>
     );
 }

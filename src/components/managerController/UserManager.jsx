@@ -187,7 +187,7 @@ export default function UserManager(props) {
     ]);
 
     return (
-        <div className="flex flex-col w-full h-full overflow-auto">
+        <div className="flex flex-col w-full h-full">
             {/* 功能项 */}
             <div className="flex flex-row justify-end mb-1 text-sm select-none">
                 <div className="bg-indigo-200 p-1 mx-1 rounded hover:bg-indigo-400 duration-300 cursor-pointer">
@@ -201,7 +201,7 @@ export default function UserManager(props) {
                 </div>
             </div>
             {/* 展示界面 */}
-            <div className="flex flex-col h-full max-h-screen overflow-auto m-1">
+            <div className="flex flex-col grow m-1">
                 {/* 静态数据类型展示 */}
                 <div className="flex flex-row py-1 pr-20 bg-gray-200 text-sm select-none">
                     <div className="px-1 mx-2 w-12 shrink-0 cursor-pointer">
@@ -225,7 +225,7 @@ export default function UserManager(props) {
                 </div>
                 <div className="flex flex-col justify-between grow"></div>
                 {/* 动态用户数据展示 */}
-                <ScrollBeauty className="flex flex-col justify-between grow overflow-auto">
+                <div className="flex flex-col justify-between grow overflow-auto">
                     {/* 用户展示 */}
                     <div>
                         {userData?.map((item) => (
@@ -321,7 +321,7 @@ export default function UserManager(props) {
                     </div>
                     {/* 分页模块 */}
                     <div className="flex justify-center items-center">目录</div>
-                </ScrollBeauty>
+                </div>
             </div>
         </div>
     );
