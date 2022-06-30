@@ -206,7 +206,6 @@ export default function Admin() {
                             </ScrollBeauty>
                         </div>
                     </div>
-
                     {/* {funcSeleted === 1 ? (
                         <WebsiteManager />
                     ) : funcSeleted === 2 ? (
