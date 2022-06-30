@@ -160,7 +160,7 @@ export default function Admin() {
             <div className="grow flex flex-col sm:flex-row sm:m-1 p-1 overflow-hidden">
                 {/* Menu */}
                 <ScrollBeauty
-                    className="flex flex-col items-center w-36 mb-1 sm:mb-0 bg-white rounded sm:overflow-auto"
+                    className="flex flex-col items-center w-full sm:w-36 sm:shrink-0 mb-1 sm:mb-0 bg-white rounded sm:overflow-auto"
                     style={{ minWidth: "6.25rem" }}
                 >
                     {/* welcome */}
