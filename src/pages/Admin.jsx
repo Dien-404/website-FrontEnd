@@ -157,47 +157,53 @@ export default function Admin() {
                 <div className="cursor-pointer p-2">账户</div>
             </div>
             {/* Menu && content Title && Outlet */}
-            <div className="grow flex flex-row m-1 p-1 overflow-hidden">
+            <div className="grow flex flex-col sm:flex-row sm:m-1 p-1 overflow-hidden">
                 {/* Menu */}
                 <ScrollBeauty
-                    className="flex flex-col items-center bg-white rounded overflow-auto"
+                    className="flex flex-col items-center w-36 mb-1 sm:mb-0 bg-white rounded sm:overflow-auto"
                     style={{ minWidth: "6.25rem" }}
                 >
                     {/* welcome */}
-                    <div className="flex text-lg font-bold">welcome</div>
+                    <div className="hidden sm:flex text-lg font-bold">
+                        welcome
+                    </div>
                     {/* menu funcid div */}
                     {/* 功能模块渲染 */}
-                    <div className="flex flex-col w-full">
+                    <div className="flex flex-row sm:flex-col w-full">
                         {func?.map((item) => (
                             <div
-                                className={`w-full flex flex-row justify-between items-center font-mono p-2 cursor-pointer`}
+                                className={`w-full flex flex-row justify-center sm:justify-between items-center font-mono p-1 sm:p-2 cursor-pointer
+                                ${
+                                    funcSeleted === item.funcId &&
+                                    "text-indigo-400"
+                                }`}
                                 key={item.funcId}
                                 onClick={() => {
                                     setFuncSeleted(item.funcId);
                                 }}
                             >
-                                {/* 功能logo */}
                                 <div className="flex flex-row text-sm">
-                                    {item.logo}
+                                    {/* 功能logo */}
+                                    <div className="hidden sm:block">
+                                        {item.logo}
+                                    </div>
                                     {/* 功能名字 */}
-                                    <div className="mx-2">{item.funcName}</div>
+                                    <div className="sm:mx-2">
+                                        {item.funcName}
+                                    </div>
                                 </div>
-                                <div>&gt;</div>
+                                <div className="hidden sm:block">&gt;</div>
                             </div>
                         ))}
                     </div>
                 </ScrollBeauty>
                 {/* 分离带 */}
-                <div className="w-4"></div>
+                <div className="sm:w-4"></div>
                 {/* show content */}
                 <div className="flex flex-col grow bg-white rounded overflow-auto">
-                    <div className="flex flex-col grow p-1 overflow-auto">
-                        {/* Content Title */}
-                        <div className="bg-gray-300 p-1">
-                            {func[funcSeleted - 1]?.funcName}
-                        </div>
+                    <div className="flex flex-col grow overflow-auto">
                         {/* Outlet */}
-                        <div className="flex grow p-1 overflow-hidden">
+                        <div className="flex grow overflow-hidden">
                             <ScrollBeauty className="flex grow overflow-auto">
                                 {/* <WebsiteManager /> */}
                                 <UserManager />
