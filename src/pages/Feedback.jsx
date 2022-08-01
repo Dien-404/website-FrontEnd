@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PageModule from "../components/PageModule";
+import BasicPage from "../components/BasicPage";
 import styled from "styled-components";
 
 const Scrollbar = styled.textarea`
@@ -11,7 +11,7 @@ export default function Feedback(props) {
     const [contact, setContact] = useState("");
     const [content, setContent] = useState("");
     return (
-        <PageModule page="Feedback">
+        <BasicPage page="Feedback">
             <>
                 <div className="w-full h-full flex justify-center items-center md:flex-row md:justify-evenly p-2">
                     <div className="hidden md:flex justify-center items-center grow max-w-xs lg:max-w-sm h-full">
@@ -674,6 +674,6 @@ export default function Feedback(props) {
                     </div>
                 </div>
             </>
-        </PageModule>
+        </BasicPage>
     );
 }

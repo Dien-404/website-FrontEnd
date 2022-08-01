@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PageModule from "../components/PageModule";
+import BasicPage from "../components/BasicPage";
 import CateBlock from "../components/CateBlock";
 
 export default function Cate(props) {
@@ -14,7 +14,7 @@ export default function Cate(props) {
     }, []);
 
     return (
-        <PageModule page="Cate">
+        <BasicPage page="Cate">
             <>
                 <div className="bg-gray-100">
                     {/* 前端内容展示 */}
@@ -60,6 +60,6 @@ export default function Cate(props) {
                     </div>
                 </div>
             </>
-        </PageModule>
+        </BasicPage>
     );
 }

@@ -1,54 +1,57 @@
-import React, { useState, useContext } from "react";
-import { ToastContext } from "../routers/index";
-import PageModule from "../components/PageModule";
+import React, { useState, useEffect } from "react";
+import BasicPage from "../components/BasicPage";
 
 export default function Home(props) {
-    const showToast = useContext(ToastContext);
     const [sort, setSort] = useState("visited");
-    const [recommendation, setRecommendation] = useState([
-        {
-            id: "number",
-            title: "string",
-            tag: ["string", "string", "string"],
-            desription:
-                "React 使创建交互式 UI变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，",
-            likes: "number",
-            Comment: "number",
-            time: "number",
-        },
-        {
-            id: "number",
-            title: "string",
-            tag: ["string", "string"],
-            desription:
-                "为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，可以无需担心性能问题而随时“刷新”整个页面，因为虚拟DOM可以确保只对界面上真正变化的部分进行实际的DOM操作。",
-            likes: "number",
-            Comment: "number",
-            time: "number",
-        },
-        {
-            id: "number",
-            title: "string",
-            tag: ["string"],
-            desription:
-                "React 使创建交互式 UI变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，可以无需担心性能问题而随时“刷新”整个页面，因为虚拟DOM可以确保只对界面上真正变化的部分进行实际的DOM操作。",
-            likes: "number",
-            Comment: "number",
-            time: "number",
-        },
-        {
-            id: "number",
-            title: "stringstringstring",
-            tag: ["string", "string", "string"],
-            desription:
-                "React 使创建交互式 UI变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，可以无需担心性能问题而随时“刷新”整个页面，因为虚拟DOM可以确保只对界面上真正变化的部分进行实际的DOM操作。",
-            likes: "number",
-            Comment: "number",
-            time: "number",
-        },
-    ]);
+    const [recommendation, setRecommendation] = useState(undefined);
+
+    useEffect(() => {
+        setRecommendation([
+            {
+                id: "number",
+                title: "string",
+                tag: ["string", "string", "string"],
+                desription:
+                    "React 使创建交互式 UI变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，",
+                likes: "number",
+                Comment: "number",
+                time: "number",
+            },
+            {
+                id: "number",
+                title: "string",
+                tag: ["string", "string"],
+                desription:
+                    "为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，可以无需担心性能问题而随时“刷新”整个页面，因为虚拟DOM可以确保只对界面上真正变化的部分进行实际的DOM操作。",
+                likes: "number",
+                Comment: "number",
+                time: "number",
+            },
+            {
+                id: "number",
+                title: "string",
+                tag: ["string"],
+                desription:
+                    "React 使创建交互式 UI变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，可以无需担心性能问题而随时“刷新”整个页面，因为虚拟DOM可以确保只对界面上真正变化的部分进行实际的DOM操作。",
+                likes: "number",
+                Comment: "number",
+                time: "number",
+            },
+            {
+                id: "number",
+                title: "stringstringstring",
+                tag: ["string", "string", "string"],
+                desription:
+                    "React 使创建交互式 UI变得轻而易举。为你应用的每一个状态设计简洁的视图，当数据改变时React 能有效地更新并正确地渲染组件。以声明式编写UI，可以让你的代码更加可靠，且方便调试。虚拟DOM具有批处理和高效的Diff算法，可以无需担心性能问题而随时“刷新”整个页面，因为虚拟DOM可以确保只对界面上真正变化的部分进行实际的DOM操作。",
+                likes: "number",
+                Comment: "number",
+                time: "number",
+            },
+        ]);
+    }, []);
+
     return (
-        <PageModule page="Home">
+        <BasicPage page="Home">
             <>
                 {/* 首页欢迎展示 */}
                 <div className="sm:px-24 lg:px-32 xl:px-40 duration-300 h-64 select-none mb-5">
@@ -100,7 +103,7 @@ export default function Home(props) {
                     {/* 呈现板块 */}
                     <div className="">
                         {/* 遍历推荐列表 */}
-                        {recommendation.map((item) => (
+                        {recommendation?.map((item) => (
                             <div className="h-auto flex flex-col px-3 sm:p-2 mb-5 bg-white rounded duration-300">
                                 {/* Title && Tag */}
                                 <div className="flex flex-col sm:flex-row mb-4">
@@ -127,6 +130,6 @@ export default function Home(props) {
                     </div>
                 </div>
             </>
-        </PageModule>
+        </BasicPage>
     );
 }

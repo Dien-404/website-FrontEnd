@@ -1,9 +1,9 @@
 import React from "react";
-import PageModule from "../components/PageModule";
+import BasicPage from "../components/BasicPage";
 
 export default function About(props) {
     return (
-        <PageModule page="About">
+        <BasicPage page="About">
             <>
                 <div className="h-full flex flex-col p-2 sm:p-5">
                     {/* title */}
@@ -50,6 +50,6 @@ export default function About(props) {
                     </div>
                 </div>
             </>
-        </PageModule>
+        </BasicPage>
     );
 }

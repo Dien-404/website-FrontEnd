@@ -1,22 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-
-const ScrollBeauty = styled.div`
-    ::-webkit-scrollbar {
-        width: 0.3125rem;
-        height: 0.375rem;
-    }
-    ::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 0.3125rem;
-        :hover {
-            background-color: gray;
-        }
-    }
-    ::-webkit-scrollbar-button {
-        display: none;
-    }
-`;
+import ScrollBarBeauty from "./ScrollBarBeauty";
 
 export default function CateBlock(props) {
     const [data, setData] = useState(undefined);
@@ -90,7 +73,7 @@ export default function CateBlock(props) {
             </div>
 
             {/* content */}
-            <ScrollBeauty className="flex flex-col sm:flex-row items-center sm:justify-between pt-3 pb-1 overflow-x-auto">
+            <ScrollBarBeauty className="flex flex-col sm:flex-row items-center sm:justify-between pt-3 pb-1 overflow-x-auto cursor-pointer">
                 {data?.map((item) => (
                     <div
                         key={item.postId}
@@ -120,7 +103,7 @@ export default function CateBlock(props) {
                         </div>
                     </div>
                 ))}
-            </ScrollBeauty>
+            </ScrollBarBeauty>
         </div>
     );
 }

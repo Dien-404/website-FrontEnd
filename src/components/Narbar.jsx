@@ -73,7 +73,7 @@ export default function Narbar(props) {
             {/* 移动端 */}
             <div
                 className={`flex flex-col sm:hidden duration-500 ${
-                    props.menu === false ? "h-11" : "h-screen"
+                    props.isMenuOn === false ? "h-11" : "h-screen"
                 }`}
             >
                 {/* 导航栏 */}
@@ -82,10 +82,10 @@ export default function Narbar(props) {
                     <div className="w-20 h-8 overflow-hidden">
                         <div
                             className={`w-8 h-8 flex flex-col duration-700 ${
-                                props.menu === false ? "-translate-y-8" : ""
+                                props.isMenuOn === false ? "-translate-y-8" : ""
                             }`}
                             onClick={() => {
-                                props.setMenu(!props.menu);
+                                props.setIsMenuOn(!props.isMenuOn);
                             }}
                         >
                             <div className="p-1">

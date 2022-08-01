@@ -11,10 +11,16 @@ const Card = styled.div`
     border-bottom: 0.0625rem solid rgba(255, 255, 255, 1);
 `;
 
+const Scrollbar = styled.div`
+    ::-webkit-scrollbar {
+        display: none;
+    }
+`;
+
 export default function Menu() {
     return (
         <>
-            <div className={`overflow-y-scroll px-2`}>
+            <Scrollbar className={`overflow-y-scroll px-2`}>
                 <Card>
                     <Link
                         className="w-full h-full flex items-center justify-between"
@@ -51,7 +57,7 @@ export default function Menu() {
                         <span>&gt;</span>
                     </Link>
                 </Card>
-            </div>
+            </Scrollbar>
         </>
     );
 }

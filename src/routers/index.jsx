@@ -1,54 +1,71 @@
 // 依赖导入
-import React, { useState } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
-// Routes 页面加载
-import Home from "../pages/Home";
-import About from "../pages/About";
-import Cate from "../pages/Cate";
-import Feedback from "../pages/Feedback";
-import Welcome from "../pages/Welcome";
-import Admin from "../pages/Admin";
-import User from "../pages/User";
 
-export const ToastContext = React.createContext(undefined);
+// Routes 页面懒加载
+// 主页
+const Home = lazy(() => {
+    return import("../pages/Home");
+});
+// 分类
+const About = lazy(() => {
+    return import("../pages/About");
+});
+// 关于
+const Cate = lazy(() => {
+    return import("../pages/Cate");
+});
+// 反馈
+const Feedback = lazy(() => {
+    return import("../pages/Feedback");
+});
+// 注册及登录界面
+const Welcome = lazy(() => {
+    return import("../pages/Welcome");
+});
+// 管理
+const WebsiteManager = lazy(() => {
+    return import("../components/managerController/WebsiteManager");
+});
+const UserManager = lazy(() => {
+    return import("../components/managerController/UserManager");
+});
+const PostManager = lazy(() => {
+    return import("../components/managerController/PostManager");
+});
+const ConsumeManager = lazy(() => {
+    return import("../components/managerController/ConsumeManager");
+});
+// 用户
+const User = lazy(() => {
+    return import("../pages/User");
+});
 
 export default function Router() {
-    const [toastContext, setToastContext] = useState("");
-    const [isShowToast, setIsShowToast] = useState(false);
-    const showToast = (context) => {
-        setToastContext(context);
-        setIsShowToast(true);
-        setTimeout(() => {
-            setIsShowToast(false);
-        }, 2000);
-    };
     return (
         <BrowserRouter>
-            <CSSTransition
-                in={isShowToast}
-                timeout={200}
-                classNames="Fade"
-                unmountOnExit
+            <Suspense
+                fallback={
+                    <div className="w-screen h-screen flex justify-center items-center text-2xl">
+                        Loading...
+                    </div>
+                }
             >
-                <div
-                    className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center bg-gray-100 px-5 py-2 shadow-lg rounded font-semibold"
-                    style={{ zIndex: "999" }}
-                >
-                    {toastContext}
-                </div>
-            </CSSTransition>
-            <ToastContext.Provider value={showToast}>
                 <Routes>
                     <Route index element={<Home />} />
-                    <Route path="/about" element={<About />} />
                     <Route path="/cate" element={<Cate />} />
+                    <Route path="/about" element={<About />} />
                     <Route path="/feedback" element={<Feedback />} />
                     <Route path="/welcome" element={<Welcome />} />
-                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin">
+                        <Route path="website" element={<WebsiteManager />} />
+                        <Route path="user" element={<UserManager />} />
+                        <Route path="post" element={<PostManager />} />
+                        <Route path="consume" element={<ConsumeManager />} />
+                    </Route>
                     <Route path="/user" element={<User />} />
                 </Routes>
-            </ToastContext.Provider>
+            </Suspense>
         </BrowserRouter>
     );
 }

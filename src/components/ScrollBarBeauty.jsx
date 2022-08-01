@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const Scroll = styled.div`
+const ScrollBeauty = styled.div`
     ::-webkit-scrollbar {
         width: 0.5rem;
-        height: 0.3125rem;
+        height: 0.5rem;
     }
     ::-webkit-scrollbar-thumb {
         background-color: rgba(0, 0, 0, 0.3);
@@ -18,6 +18,10 @@ const Scroll = styled.div`
     }
 `;
 
-export default function ScrollBeauty(props) {
-    return <Scroll>{props.children}</Scroll>;
+export default function ScrollBarBeauty(props) {
+    return (
+        <ScrollBeauty className={props.className} style={props.style}>
+            {props.children}
+        </ScrollBeauty>
+    );
 }

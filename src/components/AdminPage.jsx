@@ -1,28 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import WebsiteManager from "../components/managerController/WebsiteManager";
-import UserManager from "../components/managerController/UserManager";
-import PostManager from "../components/managerController/PostManager";
-import ConsumeManager from "../components/managerController/ConsumeManager";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ScrollBarBeauty from "./ScrollBarBeauty";
 
-const ScrollBeauty = styled.div`
-    ::-webkit-scrollbar {
-        width: 0.5rem;
-        height: 0.3125rem;
-    }
-    ::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 0.3125rem;
-        :hover {
-            background-color: gray;
-        }
-    }
-    ::-webkit-scrollbar-button {
-        display: none;
-    }
-`;
-
-export default function Admin() {
+export default function Admin(props) {
+    const navigate = useNavigate();
     // 功能模块 && 方便管理功能项
     const [func, setFunc] = useState([
         {
@@ -50,7 +31,8 @@ export default function Admin() {
                 </svg>
             ),
             funcName: "网页总览",
-            funcId: "1",
+            funcId: 1,
+            tag: "website",
         },
         {
             logo: (
@@ -72,7 +54,8 @@ export default function Admin() {
                 </svg>
             ),
             funcName: "用户管理",
-            funcId: "2",
+            funcId: 2,
+            tag: "user",
         },
         {
             logo: (
@@ -99,7 +82,8 @@ export default function Admin() {
                 </svg>
             ),
             funcName: "帖子管理",
-            funcId: "3",
+            funcId: 3,
+            tag: "post",
         },
         {
             logo: (
@@ -128,15 +112,10 @@ export default function Admin() {
                 </svg>
             ),
             funcName: "信息管理",
-            funcId: "4",
+            funcId: 4,
+            tag: "consume",
         },
     ]);
-    // 功能选择模块
-    const [funcSeleted, setFuncSeleted] = useState(1);
-    // 获取功能模块
-    useEffect(() => {
-        console.log(funcSeleted);
-    }, [funcSeleted]);
 
     return (
         <div className="flex flex-col min-h-screen max-h-screen bg-gray-200 overflow-hidden select-none">
@@ -159,7 +138,7 @@ export default function Admin() {
             {/* Menu && content Title && Outlet */}
             <div className="grow flex flex-col sm:flex-row sm:m-1 p-1 overflow-hidden">
                 {/* Menu */}
-                <ScrollBeauty
+                <ScrollBarBeauty
                     className="flex flex-col items-center w-full sm:w-36 sm:shrink-0 mb-1 sm:mb-0 bg-white rounded sm:overflow-auto"
                     style={{ minWidth: "6.25rem" }}
                 >
@@ -173,14 +152,9 @@ export default function Admin() {
                         {func?.map((item) => (
                             <div
                                 className={`w-full flex flex-row justify-center sm:justify-between items-center font-mono p-1 sm:p-2 cursor-pointer
-                                ${
-                                    funcSeleted === item.funcId &&
-                                    "text-indigo-400"
-                                }`}
-                                key={item.funcId}
-                                onClick={() => {
-                                    setFuncSeleted(item.funcId);
-                                }}
+                    ${item.funcId === props.funcSelected && "text-indigo-400"}`}
+                                key={item.funcName}
+                                onClick={() => navigate(`../` + item.tag)}
                             >
                                 <div className="flex flex-row text-sm">
                                     {/* 功能logo */}
@@ -196,31 +170,19 @@ export default function Admin() {
                             </div>
                         ))}
                     </div>
-                </ScrollBeauty>
+                </ScrollBarBeauty>
                 {/* 分离带 */}
                 <div className="sm:w-4"></div>
-                {/* show content */}
+                {/* show content 此处内禁止修改 */}
                 <div className="flex flex-col grow bg-white rounded overflow-auto">
                     <div className="flex flex-col grow overflow-auto">
                         {/* Outlet */}
                         <div className="flex grow overflow-hidden">
-                            <ScrollBeauty className="flex grow overflow-auto">
-                                {/* <WebsiteManager /> */}
-                                <UserManager />
-                                {/* <PostManager /> */}
-                                {/* <ConsumeManager /> */}
-                            </ScrollBeauty>
+                            <ScrollBarBeauty className="flex grow overflow-auto">
+                                {props.children}
+                            </ScrollBarBeauty>
                         </div>
                     </div>
-                    {/* {funcSeleted === 1 ? (
-                        <WebsiteManager />
-                    ) : funcSeleted === 2 ? (
-                        <UserManager />
-                    ) : funcSeleted === 3 ? (
-                        <PostManager />
-                    ) : (
-                        <ConsumeManager />
-                    )} */}
                 </div>
             </div>
         </div>

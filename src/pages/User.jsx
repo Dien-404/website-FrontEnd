@@ -1,10 +1,10 @@
 import React from "react";
-import PageModule from "../components/PageModule";
+import BasicPage from "../components/BasicPage";
 
 export default function User() {
     return (
-        <PageModule>
+        <BasicPage>
             <>User</>
-        </PageModule>
+        </BasicPage>
     );
 }
