@@ -262,7 +262,7 @@ export default function UserManager(props) {
                         </div>
                         {/* fetch userData */}
                         {userData?.map((item) => (
-                            <div className="h-8 flex flex-row justify-between items-center py-1">
+                            <div className="h-8 flex flex-row justify-between items-center py-1 ring-indigo-200 hover:ring-1">
                                 {/* 用户信息 */}
                                 <div className="h-full flex flex-row px-1">
                                     <div className="px-1 ml-2 w-12 shrink-0">

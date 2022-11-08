@@ -44,7 +44,7 @@ export default function About(props) {
                             <br className="hidden md:block" />
                             <div className="md:py-1">Dien(匿名)</div>
                             <div className="md:py-1">00后 广东东莞</div>
-                            <div className="md:py-1">非双一流院校 计算机系</div>
+                            <div className="md:py-1">汕头大学 计算机系</div>
                             <div className="md:py-1">习惯性写bug代码</div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 // 依赖导入
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Routes 页面懒加载
 // 主页
@@ -58,6 +58,7 @@ export default function Router() {
                     <Route path="/feedback" element={<Feedback />} />
                     <Route path="/welcome" element={<Welcome />} />
                     <Route path="/admin">
+                        <Route path="" element={<Navigate to="website" />} />
                         <Route path="website" element={<WebsiteManager />} />
                         <Route path="user" element={<UserManager />} />
                         <Route path="post" element={<PostManager />} />
