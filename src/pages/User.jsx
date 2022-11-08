@@ -1,10 +1,10 @@
-import React from "react";
-import BasicPage from "../components/BasicPage";
+// import React from "react";
+// import BasicPage from "./App";
 
-export default function User() {
-    return (
-        <BasicPage>
-            <>User</>
-        </BasicPage>
-    );
-}
+// export default function User() {
+//     return (
+//         <BasicPage>
+//             <>User</>
+//         </BasicPage>
+//     );
+// }

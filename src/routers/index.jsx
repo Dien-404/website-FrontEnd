@@ -2,6 +2,10 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+const App = lazy(() => {
+    return import("../pages/App");
+});
+
 // Routes 页面懒加载
 // 主页
 const Home = lazy(() => {
@@ -37,26 +41,28 @@ const ConsumeManager = lazy(() => {
     return import("../components/managerController/ConsumeManager");
 });
 // 用户
-const User = lazy(() => {
-    return import("../pages/User");
-});
+// const User = lazy(() => {
+//     return import("../pages/User");
+// });
 
 export default function Router() {
     return (
         <BrowserRouter>
             <Suspense
                 fallback={
-                    <div className="w-screen h-screen flex justify-center items-center text-2xl">
-                        Loading...
+                    <div className="w-full h-full flex justify-center items-center">
+                        loading...
                     </div>
                 }
             >
                 <Routes>
-                    <Route index element={<Home />} />
-                    <Route path="/cate" element={<Cate />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/feedback" element={<Feedback />} />
-                    <Route path="/welcome" element={<Welcome />} />
+                    <Route path="/" element={<App />}>
+                        <Route index element={<Home />}></Route>
+                        <Route path="/cate" element={<Cate />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/feedback" element={<Feedback />} />
+                        <Route path="/welcome" element={<Welcome />} />
+                    </Route>
                     <Route path="/admin">
                         <Route path="" element={<Navigate to="website" />} />
                         <Route path="website" element={<WebsiteManager />} />
@@ -64,7 +70,6 @@ export default function Router() {
                         <Route path="post" element={<PostManager />} />
                         <Route path="consume" element={<ConsumeManager />} />
                     </Route>
-                    <Route path="/user" element={<User />} />
                 </Routes>
             </Suspense>
         </BrowserRouter>

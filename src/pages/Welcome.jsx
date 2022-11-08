@@ -44,12 +44,9 @@ export default function Welcome() {
                         }`}
                     >
                         {/* 返主页 */}
-                        <Link
-                            className="text-xl font-bold font-serif my-5 px-2 cursor-pointer"
-                            to="/"
-                        >
+                        <div className="text-xl font-bold font-serif my-5 px-2">
                             Dien's webstite
-                        </Link>
+                        </div>
                         {/* 表单 */}
                         <div className="grow flex flex-col items-center justify-between py-5 text-white">
                             {/* title */}
@@ -116,12 +113,9 @@ export default function Welcome() {
                         }`}
                     >
                         {/* 返主页 */}
-                        <Link
-                            className="text-xl font-bold font-serif my-5 px-2 cursor-pointer"
-                            to="/"
-                        >
+                        <div className="text-xl font-bold font-serif my-5 px-2">
                             Dien's webstite
-                        </Link>
+                        </div>
                         {/* 表单 */}
                         <div className="grow flex flex-col items-center justify-between py-5 text-white">
                             {/* title */}
@@ -168,7 +162,6 @@ export default function Welcome() {
                                     />
                                 </div>
                             </div>
-
                             {/* 提交 */}
                             <div className="my-2">
                                 <div className="py-0.5 px-3 rounded cursor-pointer ring-emerald-200 ring-1 hover:ring-2 duration-300">

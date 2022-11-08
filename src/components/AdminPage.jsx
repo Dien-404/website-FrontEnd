@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, Suspense } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import ScrollBarBeauty from "./ScrollBarBeauty";
 
 export default function Admin(props) {
@@ -179,7 +179,10 @@ export default function Admin(props) {
                         {/* Outlet */}
                         <div className="flex grow overflow-hidden">
                             <ScrollBarBeauty className="flex grow overflow-auto">
-                                {props.children}
+                                <Suspense fallback={<div>hello</div>}>
+                                    {props.children}
+                                    {/* {Outlet} */}
+                                </Suspense>
                             </ScrollBarBeauty>
                         </div>
                     </div>
