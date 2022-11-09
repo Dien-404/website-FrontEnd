@@ -15,7 +15,7 @@ export default function App(props) {
             <div
                 className={`w-full h-full flex flex-col justify-between grow mt-11 sm:mt-14 overflow-y-scroll sm:overflow-visible`}
             >
-                <div className="grow bg-white">
+                <div className="grow">
                     <Outlet />
                 </div>
                 {/* ICP */}

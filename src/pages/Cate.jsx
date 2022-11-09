@@ -13,50 +13,48 @@ export default function Cate(props) {
     }, []);
 
     return (
-        <>
-            <div className="bg-gray-100">
-                {/* 前端内容展示 */}
-                <div className="py-2 sm:py-4">
-                    {/* title */}
-                    <div className="sticky z-20 top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none">
-                        前端 Front-end
-                    </div>
-                    {/* content */}
-                    <div className="sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 h-auto duration-500">
-                        {cateCount?.map(
-                            (item) =>
-                                item.kind === "前端" && (
-                                    <CateBlock
-                                        cateId={item.cateId}
-                                        cate={item.cate}
-                                        count={item.count}
-                                    />
-                                )
-                        )}
-                    </div>
+        <div className="bg-gray-100">
+            {/* 前端内容展示 */}
+            <div className="py-2 sm:py-4">
+                {/* title */}
+                <div className="sticky z-20 top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none">
+                    前端 Front-end
                 </div>
-                <></>
-                {/* 后端内容展示 */}
-                <div className="py-2 sm:py-4">
-                    {/* title */}
-                    <div className="sticky z-20 top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none">
-                        后端 Back-end
-                    </div>
-                    {/* content */}
-                    <div className="sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 h-auto duration-500">
-                        {cateCount?.map(
-                            (item) =>
-                                item.kind === "后端" && (
-                                    <CateBlock
-                                        cateId={item.cateId}
-                                        cate={item.cate}
-                                        count={item.count}
-                                    />
-                                )
-                        )}
-                    </div>
+                {/* content */}
+                <div className="sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 h-auto duration-500">
+                    {cateCount?.map(
+                        (item) =>
+                            item.kind === "前端" && (
+                                <CateBlock
+                                    cateId={item.cateId}
+                                    cate={item.cate}
+                                    count={item.count}
+                                />
+                            )
+                    )}
                 </div>
             </div>
-        </>
+            <></>
+            {/* 后端内容展示 */}
+            <div className="py-2 sm:py-4">
+                {/* title */}
+                <div className="sticky z-20 top-0 flex justify-center sm:justify-start sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 text-lg font-mono bg-white duration-300 select-none">
+                    后端 Back-end
+                </div>
+                {/* content */}
+                <div className="sm:py-1 sm:top-14 sm:px-24 lg:px-32 xl:px-40 h-auto duration-500">
+                    {cateCount?.map(
+                        (item) =>
+                            item.kind === "后端" && (
+                                <CateBlock
+                                    cateId={item.cateId}
+                                    cate={item.cate}
+                                    count={item.count}
+                                />
+                            )
+                    )}
+                </div>
+            </div>
+        </div>
     );
 }

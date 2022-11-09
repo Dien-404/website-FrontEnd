@@ -115,7 +115,7 @@ function MobileNavBar() {
                     </div>
                 </div>
                 {/* LOGO */}
-                <div className="text-white">
+                <div className="text-white truncate">
                     <Link
                         to="/"
                         onClick={() => {

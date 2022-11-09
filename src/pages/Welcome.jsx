@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import LottieController from "../components/LottieController";
 import login from "../assets/login.json";
 import regist from "../assets/regist.json";

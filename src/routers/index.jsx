@@ -23,6 +23,15 @@ const Cate = lazy(() => {
 const Feedback = lazy(() => {
     return import("../pages/Feedback");
 });
+
+const Articles = lazy(() => {
+    return import("../pages/Articles");
+});
+
+const AllArticle = lazy(() => {
+    return import("../components/AllArticle");
+});
+
 // 注册及登录界面
 const Welcome = lazy(() => {
     return import("../pages/Welcome");
@@ -58,8 +67,12 @@ export default function Router() {
                 <Routes>
                     <Route path="/" element={<App />}>
                         <Route index element={<Home />}></Route>
-                        <Route path="/cate" element={<Cate />} />
-                        <Route path="/about" element={<About />} />
+                        <Route path="cate" element={<Cate />} />
+                        <Route path="about" element={<About />} />
+                        <Route path="articles" element={<Articles />}>
+                            <Route index element={<AllArticle />} />
+                            <Route path=":id" element={<>article</>} />
+                        </Route>
                         <Route path="/feedback" element={<Feedback />} />
                         <Route path="/welcome" element={<Welcome />} />
                     </Route>
