@@ -32,6 +32,10 @@ const AllArticle = lazy(() => {
     return import("../components/AllArticle");
 });
 
+const ArticleId = lazy(() => {
+    return import("../components/ArticleId");
+});
+
 // 注册及登录界面
 const Welcome = lazy(() => {
     return import("../pages/Welcome");
@@ -59,7 +63,7 @@ export default function Router() {
         <BrowserRouter>
             <Suspense
                 fallback={
-                    <div className="w-full h-full flex justify-center items-center">
+                    <div className="w-screen h-screen flex justify-center items-center">
                         loading...
                     </div>
                 }
@@ -71,7 +75,7 @@ export default function Router() {
                         <Route path="about" element={<About />} />
                         <Route path="articles" element={<Articles />}>
                             <Route index element={<AllArticle />} />
-                            <Route path=":id" element={<>article</>} />
+                            <Route path=":id" element={<ArticleId />} />
                         </Route>
                         <Route path="/feedback" element={<Feedback />} />
                         <Route path="/welcome" element={<Welcome />} />
@@ -83,6 +87,14 @@ export default function Router() {
                         <Route path="post" element={<PostManager />} />
                         <Route path="consume" element={<ConsumeManager />} />
                     </Route>
+                    <Route
+                        path="*"
+                        element={
+                            <div className="w-screen h-screen flex justify-center items-center">
+                                404
+                            </div>
+                        }
+                    />
                 </Routes>
             </Suspense>
         </BrowserRouter>
