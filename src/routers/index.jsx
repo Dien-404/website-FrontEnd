@@ -36,6 +36,10 @@ const ArticleId = lazy(() => {
     return import("../components/ArticleId");
 });
 
+const ArticleEdit = lazy(() => {
+    return import("../components/ArticleEdit");
+});
+
 // 注册及登录界面
 const Welcome = lazy(() => {
     return import("../pages/Welcome");
@@ -75,6 +79,7 @@ export default function Router() {
                         <Route path="about" element={<About />} />
                         <Route path="articles" element={<Articles />}>
                             <Route index element={<AllArticle />} />
+                            <Route path="edit" element={<ArticleEdit />} />
                             <Route path=":id" element={<ArticleId />} />
                         </Route>
                         <Route path="/feedback" element={<Feedback />} />

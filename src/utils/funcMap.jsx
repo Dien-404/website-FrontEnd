@@ -216,16 +216,33 @@ const reconcileNode = (fileLineArray) => {
             continue;
         }
         // 代码块
-        if (str.match(/^```/)) {
+        if (
+            str.match(/^```/) &&
+            i !== fileLineArray.length - 1 &&
+            str[3] !== "`"
+        ) {
             let begin = i;
-            while (!fileLineArray[++i].match(/^```/)) {}
-            const codeBlock = {
-                type: "codeBlock",
-                codeType: str.substring(3),
-                content: fileLineArray.slice(begin + 1, i),
-            };
-            res.push(codeBlock);
-            continue;
+            // 核实是否为代码块
+            let flag = false;
+            while (!fileLineArray[++i].match(/^```/)) {
+                // 如果只存在 单边```情况时，该```不属于代码块，属于段落
+                if (i >= fileLineArray.length - 1) {
+                    flag = true;
+                    break;
+                }
+            }
+            // 不是代码块，取消代码块对象的生成，还原处理段落
+            if (flag) {
+                i = begin;
+            } else {
+                const codeBlock = {
+                    type: "codeBlock",
+                    codeType: str.substring(3),
+                    content: fileLineArray.slice(begin + 1, i),
+                };
+                res.push(codeBlock);
+                continue;
+            }
         }
         // 图片资源
         if (str.match(/^!\[.{0,}\]\(.{0,}\)$/)) {
@@ -271,11 +288,6 @@ const reconcileNode = (fileLineArray) => {
             do {
                 let str = fileLineArray[i];
                 let { 0: match, index } = str.match(/\d\.\s/);
-                console.log(
-                    reconcileInlineStyle(
-                        str.substring(match.length + index, str.length)
-                    )
-                );
                 listWithOrder.content.push(
                     reconcileInlineStyle(
                         str.substring(match.length + index, str.length)
