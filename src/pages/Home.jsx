@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ArticleCard from "../components/ArticleCard";
+import ArticleList from "../components/ArticleList";
 
 export default function Home(props) {
     return (
@@ -22,7 +22,7 @@ export default function Home(props) {
                 </div>
             </div>
             {/* 主要内容部分 */}
-            <div className="grow sm:px-24 lg:px-32 xl:px-40 py-1 duration-300 bg-gray-50">
+            <div className="grow sm:px-24 lg:px-32 xl:px-40 py-1 duration-300 bg-gray-50 flex flex-col">
                 <div className="flex justify-center select-none">*精选*</div>
                 {/* 功能板块 */}
                 <div className="flex justify-end">
@@ -34,10 +34,7 @@ export default function Home(props) {
                     </Link>
                 </div>
                 {/* 呈现板块 */}
-                <div className="h-full">
-                    <ArticleCard />
-                    <ArticleCard />
-                </div>
+                <ArticleList />
             </div>
         </div>
     );

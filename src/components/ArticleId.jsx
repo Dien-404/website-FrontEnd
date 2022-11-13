@@ -101,11 +101,11 @@ function CodeInBlock(props) {
 // 列表
 function List(props) {
     return (
-        <div className="font-mono">
+        <div>
             {props.content.map((item, index) => {
                 return (
                     <div key={item}>
-                        <span className="whitespace-pre text-indigo-500">
+                        <span className="whitespace-pre text-indigo-500 font-mono">
                             {props.listType === true ? index + 1 + ". " : "-  "}
                         </span>
                         {/* {item} */}

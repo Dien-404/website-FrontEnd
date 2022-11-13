@@ -1,5 +1,5 @@
 import React from "react";
-import ArticleCard from "./ArticleCard";
+import ArticleList from "./ArticleList";
 
 export default function AllArticle() {
     // const post = {
@@ -12,14 +12,12 @@ export default function AllArticle() {
     //     visited: 0,
     //     create_time: "2022/11/9",
     // };
-    // const post_number = 12;
     return (
         <div className="h-full flex flex-col items-center sm:px-24 lg:px-32 xl:px-40 py-1 duration-300 bg-gray-50">
             <span className="text-3xl font-serif font-bold my-4 select-none">
                 Articles
             </span>
-            <ArticleCard />
-            <ArticleCard />
+            <ArticleList />
         </div>
     );
 }

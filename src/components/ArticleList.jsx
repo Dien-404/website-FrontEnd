@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ArticleCard(props) {
+function ArticleCard(props) {
     const post = {
         post_id: 1,
         post_title: "React 生命周期",
@@ -34,18 +34,34 @@ export default function ArticleCard(props) {
                     {post.post_description}
                 </div>
             </div>
-            <div className="relative w-full px-2 md:p-0 md:w-32 lg:w-48 shrink-0 font-mono bg-cover md:bg-none">
+            <div className="relative w-full px-2 md:p-0 md:w-32 lg:w-48 duration-300 shrink-0 font-mono">
                 {/* 图片 */}
                 <div
-                    className="absolute w-full h-full hidden md:block bg-cover"
+                    className="absolute w-full h-full hidden md:block bg-cover bg-center"
                     style={{ backgroundImage: `url(${post.post_background})` }}
                 />
                 {/* 显隐内容 */}
-                <div className="relative z-10w-full h-full flex flex-row md:flex-col duration-300 select-none md:hover:bg-white md:text-transparent md:hover:text-black">
+                <div className="relative z-10 w-full h-full flex flex-row md:flex-col duration-300 select-none md:hover:bg-white md:text-transparent md:hover:text-black">
                     <div className="">小红花: {post.likes}</div>
                     <div className="">访客量: {post.visited}</div>
                 </div>
             </div>
+        </div>
+    );
+}
+
+export default function ArticleList(props) {
+    return (
+        <div className="grow flex flex-col justify-between">
+            {/* 文章卡片 */}
+            <div className="">
+                <ArticleCard />
+                <ArticleCard />
+                <ArticleCard />
+                <ArticleCard />
+            </div>
+            {/* 目录 */}
+            <div className="flex justify-center items-center">1234567</div>
         </div>
     );
 }
