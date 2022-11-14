@@ -14,7 +14,7 @@ export default function ArticleEdit() {
     });
     useEffect(() => {
         setArticlePost({ ...articlePost, value: postValue.split("\n") });
-    }, [articlePost, postValue]);
+    }, [postValue]);
 
     return (
         <div className="h-full flex flex-col">
@@ -25,7 +25,7 @@ export default function ArticleEdit() {
                         <input
                             type="text"
                             maxLength="25"
-                            className="ring-1 grow p-1 outline-none focus:ring-lime-500"
+                            className="ring-1 grow p-1 outline-none focus:ring-lime-500 duration-300"
                             value={articlePost.title}
                             onChange={(e) => {
                                 setArticlePost({
@@ -39,7 +39,7 @@ export default function ArticleEdit() {
                         <label className="select-none mr-2">文章描述</label>
                         <textarea
                             rows="4"
-                            className="ring-1 grow p-1 resize-none outline-none focus:ring-lime-500"
+                            className="ring-1 grow p-1 resize-none outline-none focus:ring-lime-500 duration-300"
                             value={articlePost.description}
                             onChange={(e) => {
                                 setArticlePost({
@@ -50,8 +50,29 @@ export default function ArticleEdit() {
                         />
                     </div>
                 </div>
-                <div className="w-full m-2">
-                    这里做一个提交按钮以及上传文件的效果
+                <div className="w-full m-2 flex flex-row">
+                    {/* 左栏 */}
+                    <div className="flex flex-col">
+                        {/* 文章标签 */}
+                        <div className="flex mb-2 items-center">
+                            <label className="select-none mr-2">文章标签</label>
+                            <input
+                                type="text"
+                                placeholder="以英文字符,分开多个标签"
+                                className="ring-1 grow p-1 outline-none focus:ring-lime-500 duration-300"
+                            />
+                        </div>
+                        {/* 背景图片 */}
+                        <div className="flex mb-2 items-center">
+                            <label className="select-none mr-2">背景图片</label>
+                            {/* <input type="file" /> */}
+                        </div>
+                    </div>
+                    {/* 右栏 */}
+                    <div className="flex flex-col">
+                        <div className="flex mb-2 items-center">上传文件</div>
+                        <div className="flex mb-2 items-center">提交按钮</div>
+                    </div>
                 </div>
             </div>
             <div className="grow flex flex-row">
