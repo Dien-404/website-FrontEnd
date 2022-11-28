@@ -73,18 +73,30 @@ export default function Router() {
                 }
             >
                 <Routes>
+                    {/* 默认页 */}
                     <Route path="/" element={<App />}>
-                        <Route index element={<Home />}></Route>
-                        <Route path="cate" element={<Cate />} />
-                        <Route path="about" element={<About />} />
+                        {/* 主页 */}
+                        <Route index element={<Home />} />
+                        {/* 分类 */}
+                        <Route path="cate">
+                            <Route index element={<Cate />} />
+                            <Route path="all" element={<AllArticle />} />
+                            {/* 此处后续添加新类别 */}
+                        </Route>
+                        {/* 文章 */}
                         <Route path="articles" element={<Articles />}>
-                            <Route index element={<AllArticle />} />
+                            <Route index element={<Navigate to="/cate" />} />
                             <Route path="edit" element={<ArticleEdit />} />
                             <Route path=":id" element={<ArticleId />} />
                         </Route>
+                        {/* 关于 */}
+                        <Route path="about" element={<About />} />
+                        {/* 反馈 */}
                         <Route path="/feedback" element={<Feedback />} />
+                        {/* 登录注册 */}
                         <Route path="/welcome" element={<Welcome />} />
                     </Route>
+                    {/* 管理页 */}
                     <Route path="/admin">
                         <Route path="" element={<Navigate to="website" />} />
                         <Route path="website" element={<WebsiteManager />} />
@@ -92,6 +104,7 @@ export default function Router() {
                         <Route path="post" element={<PostManager />} />
                         <Route path="consume" element={<ConsumeManager />} />
                     </Route>
+                    {/* 404匹配 */}
                     <Route
                         path="*"
                         element={

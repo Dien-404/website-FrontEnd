@@ -28,7 +28,7 @@ export default function Home(props) {
                 <div className="flex justify-end">
                     <Link
                         className="text-indigo-500 cursor-pointer"
-                        to="/articles"
+                        to="/cate/all"
                     >
                         全部＋
                     </Link>
