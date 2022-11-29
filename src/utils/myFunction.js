@@ -1,3 +1,4 @@
+import { InlineStyle, Title, Code, Asset, List, Parallel } from "./myObject";
 const reader = new FileReader();
 
 // react 读取文件内容
@@ -15,22 +16,8 @@ const fileReader = (e) => {
     return temp;
 };
 
-// 行内样式对象
-function InlineStyle({
-    italic = false,
-    bold = false,
-    code = false,
-    content = undefined,
-}) {
-    return {
-        italic,
-        bold,
-        code,
-        content,
-    };
-}
-
-const reconcileInlineStyle = (nodeContent) => {
+// 渲染行内块标签对象
+const renderInlineNode = (nodeContent) => {
     const res = [];
     // 解决行内代码
     const handleCode = (str, italic = false, bold = false) => {
@@ -40,7 +27,7 @@ const reconcileInlineStyle = (nodeContent) => {
                 let { 0: match, index } = str.match(/`.*?`/);
                 res.push(
                     str.slice(0, index),
-                    InlineStyle({
+                    new InlineStyle({
                         italic,
                         bold,
                         code: true,
@@ -54,13 +41,13 @@ const reconcileInlineStyle = (nodeContent) => {
             while (str.match(/`.*?`/)) {
                 let { 0: match, index } = str.match(/`.*?`/);
                 res.push(
-                    InlineStyle({
+                    new InlineStyle({
                         italic,
                         bold,
                         code: false,
                         content: str.slice(0, index),
                     }),
-                    InlineStyle({
+                    new InlineStyle({
                         italic,
                         bold,
                         code: true,
@@ -70,7 +57,7 @@ const reconcileInlineStyle = (nodeContent) => {
                 str = str.slice(index + match.length);
             }
             res.push(
-                InlineStyle({
+                new InlineStyle({
                     italic,
                     bold,
                     code: false,
@@ -112,7 +99,7 @@ const reconcileInlineStyle = (nodeContent) => {
             // 粗斜体内不存在代码块
             // 粗斜体
             if (italic && bold) {
-                return InlineStyle({
+                return new InlineStyle({
                     italic,
                     bold,
                     code,
@@ -121,7 +108,7 @@ const reconcileInlineStyle = (nodeContent) => {
             }
             // 粗体
             if (bold && !italic) {
-                return InlineStyle({
+                return new InlineStyle({
                     italic,
                     bold,
                     code,
@@ -130,7 +117,7 @@ const reconcileInlineStyle = (nodeContent) => {
             }
             // 斜体
             if (italic && !bold) {
-                return InlineStyle({
+                return new InlineStyle({
                     italic,
                     bold,
                     code,
@@ -163,6 +150,7 @@ const reconcileInlineStyle = (nodeContent) => {
         // 匹配不存在加粗、斜体样式中的代码块
         if (str.match(/`.*?`/)) {
             res.push(handleCode(str));
+        } else if (str === "") {
         } else {
             res.push(str);
         }
@@ -175,46 +163,64 @@ const reconcileInlineStyle = (nodeContent) => {
             break;
         }
     }
-    res.push(nodeContent);
+    if (nodeContent !== "") {
+        res.push(nodeContent);
+    }
     return res.flat(Infinity);
 };
 
-const reconcileNode = (fileLineArray) => {
+// 渲染块级标签对象
+const renderBlockNode = (fileLineArray) => {
     const res = [];
     let allLength = fileLineArray.length;
     for (let i = 0; i < allLength; i++) {
+        // 获取第 i 行字符串
         let str = fileLineArray[i];
+
+        // 一级标题不渲染
+        // if (str.match(/^#{1}\s/)) {
+        //     res.push(
+        //         new Title({
+        //             titleType: "first",
+        //             content: renderInlineNode(str.slice(2)),
+        //         })
+        //     );
+        // }
+
         // 二级标题
         if (str.match(/^#{2}\s/)) {
-            const secondLevelTitle = {
-                type: "title",
-                titleType: "second",
-                content: reconcileInlineStyle(str.slice(3)),
-            };
-            res.push(secondLevelTitle);
+            res.push(
+                new Title({
+                    titleType: "second",
+                    content: renderInlineNode(str.slice(3)),
+                })
+            );
             continue;
         }
+
         // 三级标题
         if (str.match(/^#{3}\s/)) {
-            const thirdLevelTitle = {
-                type: "title",
-                titleType: "third",
-                content: reconcileInlineStyle(str.slice(4)),
-            };
-            res.push(thirdLevelTitle);
+            res.push(
+                new Title({
+                    titleType: "third",
+                    content: renderInlineNode(str.slice(4)),
+                })
+            );
             continue;
         }
+
         // 四级标题及以上
         if (str.match(/^#{4,6}\s/)) {
             let { 0: match } = str.match(/^#{4,6}\s/);
-            const defaultLevelTitle = {
-                type: "title",
-                titleType: "default",
-                content: reconcileInlineStyle(match.length),
-            };
-            res.push(defaultLevelTitle);
+            res.push(
+                new Title({
+                    titleType: "default",
+                    content: renderInlineNode(str.slice(match.length)),
+                })
+            );
             continue;
         }
+
         // 代码块
         if (
             str.match(/^```/) &&
@@ -235,80 +241,70 @@ const reconcileNode = (fileLineArray) => {
             if (flag) {
                 i = begin;
             } else {
-                const codeBlock = {
-                    type: "codeBlock",
-                    codeType: str.substring(3),
-                    content: fileLineArray.slice(begin + 1, i),
-                };
-                res.push(codeBlock);
+                res.push(
+                    new Code({
+                        codeType: str.substring(3),
+                        content: fileLineArray.slice(begin + 1, i),
+                    })
+                );
                 continue;
             }
         }
-        // 图片资源
+
+        // 资源
+        // 图片，后续可能更新音频
         if (str.match(/^!\[.{0,}\]\(.{0,}\)$/)) {
             let img = str.match(/^!\[.{0,}\]\(.{0,}\)$/)[0];
+            // 获取图片资源注释
             let alt = img.match(/\[.*?\]/)[0];
             alt = alt.substring(1, alt.length - 1);
+
+            // 获取图片资源链接
             let src = img.match(/\(.*?\)$/)[0];
             src = src.substring(1, src.length - 1);
-            const Asset = {
-                type: "asset",
-                assetType: "img",
-                alt,
-                src,
-            };
-            res.push(Asset);
+
+            res.push(new Asset({ assetType: "img", alt, src }));
             continue;
         }
         // 无序列表
         if (str.match(/-\s/)) {
-            const listWithNoOrder = {
-                type: "list",
-                listType: false, // false 为无序列表, true 为有序列表
-                content: [],
-            };
+            let content = [];
+
             do {
                 let str = fileLineArray[i];
                 let { index } = str.match(/-\s/);
-                listWithNoOrder.content.push(
-                    reconcileInlineStyle(str.substring(index + 2, str.length))
+                content.push(
+                    renderInlineNode(str.substring(index + 2, str.length))
                 );
             } while (fileLineArray[++i]?.match(/-\s/));
+
             i--; // !important
-            res.push(listWithNoOrder);
+            res.push(new List({ listType: false, content }));
             continue;
         }
         // 有序列表
         if (str.match(/\d\.\s/)) {
-            const listWithOrder = {
-                type: "list",
-                listType: true,
-                content: [],
-            };
+            let content = [];
+
             do {
                 let str = fileLineArray[i];
                 let { 0: match, index } = str.match(/\d\.\s/);
-                listWithOrder.content.push(
-                    reconcileInlineStyle(
+                content.push(
+                    renderInlineNode(
                         str.substring(match.length + index, str.length)
                     )
                 );
             } while (fileLineArray[++i]?.match(/\d\.\s/));
-            i--;
-            res.push(listWithOrder);
+
+            i--; // !important
+            res.push(new List({ listType: true, content }));
             continue;
         }
-        // 默认情况
-        {
-            const parallel = {
-                type: "parallel",
-                content: reconcileInlineStyle(str),
-            };
-            res.push(parallel);
-            continue;
-        }
+
+        // 默认情况，以上所有情况不触发，则触发此情况
+        res.push(new Parallel({ content: renderInlineNode(str) }));
     }
     return res;
 };
 
-export { fileReader, reconcileNode };
+export { fileReader, renderBlockNode };
