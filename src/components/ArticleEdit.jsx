@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useDeferredValue } from "react";
 import styled from "styled-components";
 import { renderBlockNode } from "../utils/myFunction";
 // import { useDeferredValue } from "react";
@@ -55,12 +55,13 @@ export default function ArticleEdit() {
     const [inputText, setInputText] = useState(
         "这里是文章主体内容，采用markdown语法规则\n# 一级标题不匹配\n## 二级标题\n### 三级标题\n**加粗字体**"
     );
+    const deferredText = useDeferredValue(inputText, { timeoutMs: 2000 });
     // 模拟存放入数据库的文章信息
     const [value, setValue] = useState([]);
 
     useEffect(() => {
-        setValue(renderBlockNode(inputText.split("\n")));
-    }, [inputText]);
+        setValue(renderBlockNode(deferredText.split("\n")));
+    }, [deferredText]);
 
     return (
         <div className="h-full flex flex-col">

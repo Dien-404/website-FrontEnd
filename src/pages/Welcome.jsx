@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import LottieController from "../components/LottieController";
-import login from "../assets/login.json";
-import regist from "../assets/regist.json";
+import regist from "../assets/regist.png";
+import login from "../assets/login.png";
 
 export default function Welcome() {
     const [seleted, setSeleted] = useState(true);
@@ -28,12 +27,25 @@ export default function Welcome() {
                 >
                     {/* 遮罩层 */}
                     <div
-                        className={`hidden md:flex absolute z-50 sm:w-80 h-full bg-white/5 duration-500 justify-center items-center ${
+                        className={`hidden md:block absolute z-50 sm:w-80 h-full bg-white/5 duration-500 overflow-hidden ${
                             seleted === true ? "md:translate-x-full" : ""
                         }`}
                     >
-                        <LottieController
-                            animationData={seleted === true ? login : regist}
+                        {/* login */}
+                        <img
+                            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 duration-300 ${
+                                seleted === true ? "opacity-100" : "opacity-0"
+                            }`}
+                            src={login}
+                            alt="login"
+                        />
+                        {/* regist */}
+                        <img
+                            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 duration-300 ${
+                                seleted === true ? "opacity-0" : "opacity-100"
+                            }`}
+                            src={regist}
+                            alt="regist"
                         />
                     </div>
                     {/* 登录 */}
