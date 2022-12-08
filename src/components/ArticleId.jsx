@@ -19,19 +19,19 @@ export default function ArticleId() {
         value: [
             {
                 type: "parallel",
-                content: ["这里是文章主体内容，采用markdown语法规则"],
+                value: ["这里是文章主体内容，采用markdown语法规则"],
             },
-            { type: "parallel", content: ["# 一级标题不匹配"] },
-            { type: "title", titleType: "second", content: ["二级标题"] },
-            { type: "title", titleType: "third", content: ["三级标题"] },
+            { type: "parallel", value: ["# 一级标题不匹配"] },
+            { type: "title", tag: "second", value: ["二级标题"] },
+            { type: "title", tag: "third", value: ["三级标题"] },
             {
                 type: "parallel",
-                content: [
+                value: [
                     {
                         italic: false,
                         bold: true,
                         code: false,
-                        content: "加粗字体",
+                        value: "加粗字体",
                     },
                 ],
             },

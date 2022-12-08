@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useDeferredValue } from "react";
 import styled from "styled-components";
-import { renderBlockNode } from "../utils/myFunction";
+import { renderBlockNode } from "../utils/renderFunction";
 // import { useDeferredValue } from "react";
 import ArticlePost from "./ArticlePost";
 

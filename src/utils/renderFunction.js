@@ -1,26 +1,36 @@
-import { InlineStyle, Title, Code, Asset, List, Parallel } from "./myObject";
-const reader = new FileReader();
-
-// react 读取文件内容
-const fileReader = (e) => {
-    const file = e.target.files[0];
-    let temp = [];
-    reader.readAsText(file);
-    reader.onload = () => {
-        reader.result.split("\n").forEach((line) => {
-            if (line !== "") {
-                temp.push(line);
-            }
-        });
+// 行内样式
+function InlineStyle({
+    italic = false,
+    bold = false,
+    code = false,
+    link = false,
+    value = undefined,
+}) {
+    return {
+        italic,
+        bold,
+        code,
+        link,
+        value,
     };
-    return temp;
-};
+}
+
+// 块级样式
+function BlockStyle({ type, tag, value, alt, src } = {}) {
+    return {
+        type,
+        tag,
+        value,
+        alt,
+        src,
+    };
+}
 
 // 渲染行内块标签对象
-const renderInlineNode = (nodeContent) => {
-    const res = [];
+const renderInlineNode = (nodeValue) => {
+    const inlineNodes = [];
     // 解决行内代码
-    const handleCode = (str, italic = false, bold = false) => {
+    const handleCode = (str, italic = false, bold = false, link = false) => {
         const res = [];
         if (!italic && !bold) {
             while (str.match(/`.*?`/)) {
@@ -30,8 +40,9 @@ const renderInlineNode = (nodeContent) => {
                     new InlineStyle({
                         italic,
                         bold,
+                        link,
                         code: true,
-                        content: match.slice(1, match.length - 1),
+                        value: match.slice(1, match.length - 1),
                     })
                 );
                 str = str.slice(index + match.length);
@@ -44,14 +55,16 @@ const renderInlineNode = (nodeContent) => {
                     new InlineStyle({
                         italic,
                         bold,
+                        link,
                         code: false,
-                        content: str.slice(0, index),
+                        value: str.slice(0, index),
                     }),
                     new InlineStyle({
                         italic,
                         bold,
+                        link,
                         code: true,
-                        content: match.slice(1, match.length - 1),
+                        value: match.slice(1, match.length - 1),
                     })
                 );
                 str = str.slice(index + match.length);
@@ -60,8 +73,9 @@ const renderInlineNode = (nodeContent) => {
                 new InlineStyle({
                     italic,
                     bold,
+                    link,
                     code: false,
-                    content: str,
+                    value: str,
                 })
             );
         }
@@ -73,28 +87,29 @@ const renderInlineNode = (nodeContent) => {
         let italic = false,
             bold = false,
             code = false,
-            content;
+            link = false,
+            value;
         if (
             str.slice(0, 3) === "***" &&
             str.slice(0, 3) === str.slice(str.length - 3, str.length)
         ) {
             italic = true;
             bold = true;
-            content = str.slice(3, str.length - 3);
+            value = str.slice(3, str.length - 3);
         } else if (
             str.slice(0, 2) === "**" &&
             str.slice(0, 2) === str.slice(str.length - 2, str.length)
         ) {
             bold = true;
-            content = str.slice(2, str.length - 2);
+            value = str.slice(2, str.length - 2);
         } else if (str[0] === "*" && str[0] === str[str.length - 1]) {
             italic = true;
-            content = str.slice(1, str.length - 1);
+            value = str.slice(1, str.length - 1);
         }
 
         if (str.match(/`.*?`/)) {
             // 粗斜体内存在代码块
-            return handleCode(content, italic, bold);
+            return handleCode(value, italic, bold);
         } else {
             // 粗斜体内不存在代码块
             // 粗斜体
@@ -103,7 +118,8 @@ const renderInlineNode = (nodeContent) => {
                     italic,
                     bold,
                     code,
-                    content,
+                    link,
+                    value,
                 });
             }
             // 粗体
@@ -112,7 +128,8 @@ const renderInlineNode = (nodeContent) => {
                     italic,
                     bold,
                     code,
-                    content,
+                    link,
+                    value,
                 });
             }
             // 斜体
@@ -121,103 +138,98 @@ const renderInlineNode = (nodeContent) => {
                     italic,
                     bold,
                     code,
-                    content,
+                    link,
+                    value,
                 });
             }
         }
     };
 
-    while (
-        nodeContent.match(/\*{1,3}.*?\*{1,3}/) ||
-        nodeContent.match(/`.*?`/)
-    ) {
+    while (nodeValue.match(/\*{1,3}.*?\*{1,3}/) || nodeValue.match(/`.*?`/)) {
         let str, // 处理行内代码
             matchItem, // 处理当前粗斜体匹配对象 -> 匹配的字符串
             matchIndex; // 处理当前粗斜体匹配对象 -> 匹配的下标
-        if (nodeContent.match(/\*{1,3}.*?\*{1,3}/)) {
+        if (nodeValue.match(/\*{1,3}.*?\*{1,3}/)) {
             // 存在 加粗、斜体情况
-            let { 0: match, index } = nodeContent.match(/\*{1,3}.*?\*{1,3}/);
+            let { 0: match, index } = nodeValue.match(/\*{1,3}.*?\*{1,3}/);
             matchItem = match;
             matchIndex = index;
             // 匹配字符串前的字符串出现的代码块
-            str = nodeContent.slice(0, matchIndex);
+            str = nodeValue.slice(0, matchIndex);
         } else {
             // 不存在 加粗、斜体情况
-            str = nodeContent; // 只需考虑代码块
-            nodeContent = "";
+            str = nodeValue; // 只需考虑代码块
+            nodeValue = "";
         }
         // 优先处理代码块
         // 匹配不存在加粗、斜体样式中的代码块
         if (str.match(/`.*?`/)) {
-            res.push(handleCode(str));
+            inlineNodes.push(handleCode(str));
         } else if (str === "") {
+            // 不处理空字符串
         } else {
-            res.push(str);
+            inlineNodes.push(str);
         }
         // 解决粗斜体以及判断是否合规
         if (matchItem) {
             // 存在粗斜体
-            res.push(handleItalicOrBold(matchItem));
-            nodeContent = nodeContent.slice(matchIndex + matchItem.length);
+            inlineNodes.push(handleItalicOrBold(matchItem));
+            nodeValue = nodeValue.slice(matchIndex + matchItem.length);
         } else {
             break;
         }
     }
-    if (nodeContent !== "") {
-        res.push(nodeContent);
+    if (nodeValue !== "") {
+        inlineNodes.push(nodeValue);
     }
-    return res.flat(Infinity);
+    return inlineNodes.flat(Infinity);
 };
 
 // 渲染块级标签对象
 const renderBlockNode = (fileLineArray) => {
-    const res = [];
+    const blockNodes = [];
     let allLength = fileLineArray.length;
     for (let i = 0; i < allLength; i++) {
         // 获取第 i 行字符串
         let str = fileLineArray[i];
 
+        // 生成新的块级样式节点
+        const blockNode = new BlockStyle();
+
         // 一级标题不渲染
         // if (str.match(/^#{1}\s/)) {
-        //     res.push(
-        //         new Title({
-        //             titleType: "first",
-        //             content: renderInlineNode(str.slice(2)),
-        //         })
-        //     );
+        //     blockNode.type = "title";
+        //     blockNode.tag = "first";
+        //     blockNode.value = str.slice(2);
+        //     blockNodes.push(blockNode);
+        //     continue;
         // }
 
         // 二级标题
         if (str.match(/^#{2}\s/)) {
-            res.push(
-                new Title({
-                    titleType: "second",
-                    content: renderInlineNode(str.slice(3)),
-                })
-            );
+            blockNode.type = "title";
+            blockNode.tag = "second";
+            blockNode.value = renderInlineNode(str.slice(3));
+            blockNodes.push(blockNode);
             continue;
         }
 
         // 三级标题
         if (str.match(/^#{3}\s/)) {
-            res.push(
-                new Title({
-                    titleType: "third",
-                    content: renderInlineNode(str.slice(4)),
-                })
-            );
+            blockNode.type = "title";
+            blockNode.tag = "third";
+            blockNode.value = renderInlineNode(str.slice(4));
+            blockNodes.push(blockNode);
             continue;
         }
 
         // 四级标题及以上
         if (str.match(/^#{4,6}\s/)) {
             let { 0: match } = str.match(/^#{4,6}\s/);
-            res.push(
-                new Title({
-                    titleType: "default",
-                    content: renderInlineNode(str.slice(match.length)),
-                })
-            );
+            blockNode.type = "title";
+            blockNode.tag = "default";
+            blockNode.value = renderInlineNode(str.slice(match.length));
+            blockNodes.push(blockNode);
             continue;
         }
 
@@ -241,12 +253,9 @@ const renderBlockNode = (fileLineArray) => {
             if (flag) {
                 i = begin;
             } else {
-                res.push(
-                    new Code({
-                        codeType: str.substring(3),
-                        content: fileLineArray.slice(begin + 1, i),
-                    })
-                );
+                blockNode.type = "code";
+                blockNode.value = fileLineArray.slice(begin + 1, i);
+                blockNodes.push(blockNode);
                 continue;
             }
         }
@@ -257,39 +266,44 @@ const renderBlockNode = (fileLineArray) => {
             let img = str.match(/^!\[.{0,}\]\(.{0,}\)$/)[0];
             // 获取图片资源注释
             let alt = img.match(/\[.*?\]/)[0];
-            alt = alt.substring(1, alt.length - 1);
-
             // 获取图片资源链接
             let src = img.match(/\(.*?\)$/)[0];
-            src = src.substring(1, src.length - 1);
 
-            res.push(new Asset({ assetType: "img", alt, src }));
+            blockNode.type = "asset";
+            blockNode.tag = "img";
+            blockNode.alt = alt.substring(1, alt.length - 1);
+            blockNode.src = src.substring(1, src.length - 1);
+            blockNodes.push(blockNode);
             continue;
         }
         // 无序列表
         if (str.match(/-\s/)) {
-            let content = [];
+            let value = [];
 
             do {
                 let str = fileLineArray[i];
                 let { index } = str.match(/-\s/);
-                content.push(
+                value.push(
                     renderInlineNode(str.substring(index + 2, str.length))
                 );
             } while (fileLineArray[++i]?.match(/-\s/));
 
             i--; // !important
-            res.push(new List({ listType: false, content }));
+
+            blockNode.type = "list";
+            blockNode.tag = false;
+            blockNode.value = value;
+            blockNodes.push(blockNode);
             continue;
         }
         // 有序列表
         if (str.match(/\d\.\s/)) {
-            let content = [];
+            let value = [];
 
             do {
                 let str = fileLineArray[i];
                 let { 0: match, index } = str.match(/\d\.\s/);
-                content.push(
+                value.push(
                     renderInlineNode(
                         str.substring(match.length + index, str.length)
                     )
@@ -297,14 +311,21 @@ const renderBlockNode = (fileLineArray) => {
             } while (fileLineArray[++i]?.match(/\d\.\s/));
 
             i--; // !important
-            res.push(new List({ listType: true, content }));
+
+            blockNode.type = "list";
+            blockNode.tag = true;
+            blockNode.value = value;
+            blockNodes.push(blockNode);
             continue;
         }
 
         // 默认情况，以上所有情况不触发，则触发此情况
-        res.push(new Parallel({ content: renderInlineNode(str) }));
+        blockNode.type = "parallel";
+        blockNode.value = renderInlineNode(str);
+        blockNodes.push(blockNode);
     }
-    return res;
+    console.log(blockNodes);
+    return blockNodes;
 };
 
-export { fileReader, renderBlockNode };
+export { renderBlockNode };
