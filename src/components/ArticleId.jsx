@@ -27,14 +27,12 @@ export default function ArticleId() {
             {
                 type: "parallel",
                 content: [
-                    "",
                     {
                         italic: false,
                         bold: true,
                         code: false,
                         content: "加粗字体",
                     },
-                    "",
                 ],
             },
         ],

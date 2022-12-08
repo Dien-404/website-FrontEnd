@@ -144,7 +144,7 @@ export default function ArticlePost(props) {
         10+...评论对象等 
     */
     const {
-        id,
+        _id: id,
         title,
         tag,
         description,
@@ -153,6 +153,7 @@ export default function ArticlePost(props) {
         likes,
         visited,
         create_time,
+        commet,
     } = props;
 
     // 渲染数据对象
