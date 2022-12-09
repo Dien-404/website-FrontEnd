@@ -1,57 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 
-function ArticleCard(props) {
-    const post = {
-        post_id: 1,
-        post_title: "React 生命周期",
-        post_tag: ["React", "基础", "组件"],
-        post_description:
-            "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
-        post_background:
-            "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
-        likes: 3,
-        visited: 0,
-        create_time: "2022/11/9",
-    };
+function PostCard(props) {
+    const {
+        _id,
+        title,
+        cate,
+        subclass,
+        tag,
+        description,
+        background,
+        likes,
+        visited,
+        create_time,
+    } = props.post;
 
     return (
-        <div className="bg-white mb-3 flex flex-col sm:rounded md:flex-row shadow">
+        <div className="bg-white mb-5 flex flex-col sm:rounded md:flex-row shadow">
+            {/* 详细信息 */}
             <div className="flex flex-col px-4 pt-4 pb-2 cursor-pointer">
                 {/* 标题 */}
                 <div className="text-2xl font-bold mb-2 duration-500 text-sky-500 hover:text-emerald-400">
-                    {post.post_title}
+                    {title}
                 </div>
-                {/* 标签 */}
+                {/* 标签、创建时间、访客、点赞 */}
                 <div className="flex flex-row justify-between items-center select-none">
+                    {/* 标签、创建时间 */}
                     <span className="w-auto text-xs text-gray-500 cursor-default">
-                        {post.post_tag.map((item) => {
+                        {/* 标签 */}
+                        {tag.map((item) => {
                             return (
                                 <span className="mr-2 px-1 border border-gray-500">
                                     {item}
                                 </span>
                             );
                         })}
-                        <span>{post.create_time}</span>
+                        {/* 创建时间 */}
+                        <span>{create_time}</span>
                     </span>
                     <span className="flex flex-row font-mono cursor-default">
                         {/* 访客 */}
                         <span className="flex flex-row mr-3">
                             <svg
-                                t="1670501906481"
+                                t="1670510643731"
                                 viewBox="0 0 1024 1024"
                                 version="1.1"
                                 xmlns="http://www.w3.org/2000/svg"
-                                p-id="4031"
+                                p-id="3530"
                                 width="20"
                                 height="20"
                             >
                                 <path
                                     d="M485.506 479.076c-2.099 0-4.213 0.108-6.335 0.318l-316.325 31.364c-27.907 2.769-50.687 23.327-56.083 50.61s7.868 54.857 32.654 67.867l58.333 30.613L76.757 779.81c-11.926 11.826-18.626 27.866-18.626 44.586s6.7 32.763 18.626 44.586l79.081 78.401c12.419 12.319 28.697 18.471 44.972 18.471s32.553-6.151 44.972-18.471l120.993-119.955 30.878 57.837c11.171 20.916 32.986 33.557 56.198 33.557 4.059 0 8.158-0.385 12.251-1.182 27.522-5.348 48.262-27.939 51.051-55.609l31.635-313.618c1.898-18.822-4.823-37.497-18.309-50.868-11.984-11.877-28.194-18.469-44.97-18.469z m-31.643 376.682l-71.171-133.293-181.885 180.331-79.081-78.401 181.885-180.331-134.439-70.56 316.325-31.364-31.635 313.618z m62.027-576.272c17.561 0 31.803-14.114 31.803-31.525V89.671c0-17.41-14.244-31.525-31.803-31.525-17.561 0-31.803 14.114-31.803 31.525v158.288c0 17.41 14.243 31.526 31.803 31.526z m182.812 75.076c8.139 0 16.27-3.079 22.483-9.237l112.889-111.924c12.419-12.305 12.419-32.275 0-44.58-12.419-12.319-32.547-12.319-44.972 0L676.22 300.74c-12.428 12.31-12.428 32.275 0 44.586 6.207 6.16 14.346 9.237 22.483 9.237z m235.367 118.186H774.417c-17.566 0-31.803 14.114-31.803 31.533 0 17.41 14.237 31.525 31.803 31.525h159.652c17.566 0 31.803-14.114 31.803-31.525 0.001-17.418-14.237-31.533-31.803-31.533zM721.185 663.23c-12.419-12.319-32.547-12.319-44.966 0-12.428 12.31-12.428 32.275 0 44.586l112.882 111.919c6.213 6.159 14.352 9.237 22.49 9.237 8.131 0 16.27-3.079 22.483-9.237 12.419-12.305 12.419-32.275 0-44.58L721.185 663.231zM310.597 345.324c6.207 6.159 14.346 9.237 22.483 9.237s16.27-3.079 22.483-9.237c12.419-12.31 12.419-32.275 0-44.586L242.674 188.819c-12.419-12.319-32.547-12.319-44.966 0-12.419 12.305-12.419 32.275 0 44.58l112.889 111.924z"
-                                    fill="#f4ea2a"
-                                    p-id="4032"
+                                    fill="#2c2c2c"
+                                    p-id="3531"
                                 ></path>
                             </svg>
-                            <span className="ml-1">{post.visited}</span>
+                            <span className="ml-1">{visited}</span>
                         </span>
                         {/* 点赞 */}
                         <span className="flex flex-row">
@@ -81,7 +85,7 @@ function ArticleCard(props) {
                                     p-id="5698"
                                 ></path>
                             </svg>
-                            <span className="ml-1">{post.likes}</span>
+                            <span className="ml-1">{likes}</span>
                         </span>
                     </span>
                 </div>
@@ -91,26 +95,68 @@ function ArticleCard(props) {
                     // style={{ minHeight: "4.5rem", maxHeight: "6.5rem" }}
                     style={{ height: "6rem" }}
                 >
-                    {post.post_description}
+                    {description}
                 </div>
             </div>
+            {/* 展示图片 */}
             <div
                 className="md:w-48 lg:w-56 duration-300 shrink-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${post.post_background})` }}
+                style={{ backgroundImage: `url(${background})` }}
             />
         </div>
     );
 }
 
 export default function ArticleList(props) {
+    // 获取list列表，如home页面，artciles页面的cate/all等
+    const { list } = props;
+    // 根据list属性发送请求
+    // 此处考虑作分页
+    const [posts, setPosts] = useState([
+        {
+            _id: 1,
+            title: "React 生命周期",
+            tag: ["React", "基础", "组件"],
+            description:
+                "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
+            background:
+                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
+            likes: 3,
+            visited: 0,
+            create_time: "2022/11/9",
+        },
+        {
+            _id: 2,
+            title: "React 生命周期",
+            tag: ["React", "基础", "组件"],
+            description:
+                "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
+            background:
+                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
+            likes: 3,
+            visited: 0,
+            create_time: "2022/11/9",
+        },
+        {
+            _id: 3,
+            title: "React 生命周期",
+            tag: ["React", "基础", "组件"],
+            description:
+                "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
+            background:
+                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
+            likes: 3,
+            visited: 0,
+            create_time: "2022/11/9",
+        },
+    ]);
     return (
         <div className="grow flex flex-col justify-between">
             {/* 文章卡片 */}
             <div className="">
-                <ArticleCard />
-                <ArticleCard />
-                <ArticleCard />
-                <ArticleCard />
+                {posts.map((item) => {
+                    return <PostCard post={item} />;
+                })}
             </div>
             {/* 目录 */}
             {/* <div className="flex justify-center items-center">1234567</div> */}

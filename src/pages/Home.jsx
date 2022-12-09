@@ -6,7 +6,13 @@ export default function Home(props) {
     return (
         <div className="flex flex-col h-full">
             {/* 首页欢迎展示 */}
-            <div className="sm:px-24 lg:px-32 xl:px-40 duration-300 h-64 select-none mb-5">
+            <div
+                className="sm:px-24 lg:px-32 xl:px-40 duration-300 h-64 sm:h-96 select-none mb-5 bg-cover bg-center"
+                style={{
+                    background:
+                        "url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-01-04%2F5a4dea60a72e2.jpg%3Fdown&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1673191610&t=2113e353f8b754aab1c3f8a5a840adf1)",
+                }}
+            >
                 <div className="flex flex-col w-full h-full px-5">
                     <div
                         className="flex items-end h-full font-serif text-6xl text-indigo-300 capitalize"
@@ -34,7 +40,8 @@ export default function Home(props) {
                     </Link>
                 </div>
                 {/* 呈现板块 */}
-                <ArticleList />
+                {/* 传入list属性，popular代表主页的精选帖子 */}
+                <ArticleList list="popular" />
             </div>
         </div>
     );
