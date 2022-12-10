@@ -44,7 +44,7 @@ export default function Welcome() {
                 email,
                 password,
             };
-            console.log(login);
+            alert("此处应发送请求" + JSON.stringify(login));
         } else {
             const regist = {
                 email,
@@ -52,7 +52,7 @@ export default function Welcome() {
                 correctPassword,
                 code,
             };
-            console.log(regist);
+            alert("此处应发送请求" + JSON.stringify(regist));
         }
     }
 
@@ -107,7 +107,7 @@ export default function Welcome() {
             <div
                 className=" absolute top-1/4 right-0 px-1 text-sm cursor-pointer"
                 onClick={() => {
-                    alert(111);
+                    console.log("sending code");
                 }}
             >
                 发送

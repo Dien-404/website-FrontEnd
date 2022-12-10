@@ -29,8 +29,9 @@ const Post = lazy(() => {
     return import("../components/postController/Post");
 });
 
-const ArticleEdit = lazy(() => {
-    return import("../components/ArticleEdit");
+// 编辑页面
+const Edit = lazy(() => {
+    return import("../components/postController/Edit");
 });
 
 // 文章列表 cate/:cateType
@@ -80,7 +81,7 @@ export default function Router() {
 
                         {/* 文章编辑 测试用 */}
                         {/* 后续将删除 unsafe */}
-                        <Route path="article/edit" element={<ArticleEdit />} />
+                        {/* <Route path="article/edit" element={<ArticleEdit />} /> */}
 
                         {/* 文章 */}
                         <Route path="post">
@@ -88,6 +89,7 @@ export default function Router() {
                                 index
                                 element={<Navigate to="/cate/all" />}
                             />
+                            <Route path="edit" element={<Edit />} />
                             <Route path=":_id" element={<Post />} />
                         </Route>
                         {/* 关于 */}

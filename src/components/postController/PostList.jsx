@@ -20,7 +20,10 @@ function PostCard(props) {
     } = props.post;
 
     return (
-        <div className="bg-white mb-5 flex flex-col sm:rounded md:flex-row shadow">
+        <Link
+            className="bg-white mb-5 flex flex-col sm:rounded md:flex-row shadow"
+            to={`/post/${_id}`}
+        >
             {/* 详细信息 */}
             <div className="flex flex-col px-4 pt-4 pb-2 cursor-pointer">
                 {/* 标题 */}
@@ -68,7 +71,7 @@ function PostCard(props) {
                 className="md:w-48 lg:w-56 duration-300 shrink-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${background})` }}
             />
-        </div>
+        </Link>
     );
 }
 

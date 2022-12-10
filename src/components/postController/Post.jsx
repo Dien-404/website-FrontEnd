@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Like, Visit } from "../../assets/SVG";
 
@@ -11,12 +11,15 @@ import Title from "../postRender/Title";
 export default function Post(props) {
     const { _id } = useParams;
 
+    // edit页面
     const {
         title: editTitle,
         description: editDescription,
         value: editValue,
+        background: editBackground,
     } = props;
 
+    // database来源
     const post = {
         _id: 1,
         title: "React 生命周期",
@@ -24,8 +27,8 @@ export default function Post(props) {
         description: "这是一条关于文章的说明",
         background:
             "https://img2.baidu.com/it/u=2738198884,3183508795&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281",
-        like: 121,
-        visit: 121,
+        like: 0,
+        visit: 0,
         createTime: "2022/11/13",
         value: [
             {
@@ -49,6 +52,7 @@ export default function Post(props) {
         ],
     };
 
+    // 解构赋值
     const {
         title,
         tag,
@@ -60,6 +64,11 @@ export default function Post(props) {
         createTime,
         commet,
     } = post;
+
+    // 当前用户是否喜欢
+    const [isLike, setIsLike] = useState(false);
+    // 交互like
+    const [reLike, setReLike] = useState(like);
 
     return (
         <div className="h-full flex flex-col items-center">
@@ -99,8 +108,12 @@ export default function Post(props) {
                                 </span>
                                 {/* 点赞 */}
                                 <span className="flex flex-row cursor-pointer">
-                                    <Like color={false} />
-                                    <span className="ml-1">{like}</span>
+                                    <Like
+                                        isLike={isLike}
+                                        setIsLike={setIsLike}
+                                        setReLike={setReLike}
+                                    />
+                                    <span className="ml-1">{reLike}</span>
                                 </span>
                             </span>
                         </div>
@@ -114,7 +127,11 @@ export default function Post(props) {
                     {/* 背景 */}
                     <div className="w-full flex justify-center items-center select-none">
                         <img
-                            src={background}
+                            src={
+                                editBackground === undefined
+                                    ? background
+                                    : editBackground
+                            }
                             alt="background"
                             className="w-full"
                         />

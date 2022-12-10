@@ -83,9 +83,10 @@ export default function CateBlock(props) {
             <ScrollBarBeauty className="flex flex-col sm:flex-row items-center sm:justify-start pt-3 pb-1 overflow-x-auto">
                 {/* 渲染 */}
                 {posts.map((postItem) => (
-                    <div
+                    <Link
                         key={postItem._id}
                         className="flex flex-col bg-white w-full sm:w-72 sm:flex-shrink-0 rounded mb-3 sm:mb-0 sm:mx-1 cursor-pointer"
+                        to={`/post/${postItem._id}`}
                     >
                         {/* background */}
                         <div className="h-64 sm:h-48 overflow-hidden">
@@ -107,7 +108,7 @@ export default function CateBlock(props) {
                                 {postItem.description}
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </ScrollBarBeauty>
         </div>
