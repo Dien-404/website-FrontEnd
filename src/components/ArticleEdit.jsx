@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDebounceEffect } from "ahooks";
 
 import { renderBlockNode } from "../utils/renderFunction";
-import ArticlePost from "./ArticlePost";
+import Post from "./postController/Post";
 
 const BeautifyTextarea = styled.textarea`
     ::-webkit-scrollbar {
@@ -132,7 +132,7 @@ export default function ArticleEdit() {
                 </div>
                 {/* 屏蔽用户选择，展示渲染结果 */}
                 <div className="w-1/2 border m-2 select-none overflow-hidden">
-                    <ArticlePost
+                    <Post
                         title={title}
                         description={description}
                         background={background}

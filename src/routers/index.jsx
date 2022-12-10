@@ -24,20 +24,18 @@ const Feedback = lazy(() => {
     return import("../pages/Feedback");
 });
 
-const Articles = lazy(() => {
-    return import("../pages/Articles");
-});
-
-const AllArticle = lazy(() => {
-    return import("../components/AllArticle");
-});
-
-const ArticleId = lazy(() => {
-    return import("../components/ArticleId");
+// 文章(单个展示)
+const Post = lazy(() => {
+    return import("../components/postController/Post");
 });
 
 const ArticleEdit = lazy(() => {
     return import("../components/ArticleEdit");
+});
+
+// 文章列表 cate/:cateType
+const PostList = lazy(() => {
+    return import("../components/postController/PostList");
 });
 
 // 注册及登录界面
@@ -57,10 +55,6 @@ const PostManager = lazy(() => {
 const ConsumeManager = lazy(() => {
     return import("../components/managerController/ConsumeManager");
 });
-// 用户
-// const User = lazy(() => {
-//     return import("../pages/User");
-// });
 
 export default function Router() {
     return (
@@ -80,14 +74,21 @@ export default function Router() {
                         {/* 分类 */}
                         <Route path="cate">
                             <Route index element={<Cate />} />
-                            <Route path="all" element={<AllArticle />} />
-                            {/* 此处后续添加新类别 */}
+                            {/* 类别分类导航 */}
+                            <Route path=":cateType" element={<PostList />} />
                         </Route>
+
+                        {/* 文章编辑 测试用 */}
+                        {/* 后续将删除 unsafe */}
+                        <Route path="article/edit" element={<ArticleEdit />} />
+
                         {/* 文章 */}
-                        <Route path="articles" element={<Articles />}>
-                            <Route index element={<Navigate to="/cate" />} />
-                            <Route path="edit" element={<ArticleEdit />} />
-                            <Route path=":id" element={<ArticleId />} />
+                        <Route path="post">
+                            <Route
+                                index
+                                element={<Navigate to="/cate/all" />}
+                            />
+                            <Route path=":_id" element={<Post />} />
                         </Route>
                         {/* 关于 */}
                         <Route path="about" element={<About />} />

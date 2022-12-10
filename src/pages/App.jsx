@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Narbar from "../components/Narbar";
-import ICP from "../components/ICP";
+import Narbar from "../components/basic/Narbar";
+import ICP from "../components/basic/ICP";
 
 export default function App(props) {
     return (
