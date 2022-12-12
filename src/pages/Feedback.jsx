@@ -69,7 +69,7 @@ export default function Feedback(props) {
                     </div>
                     {/* Submit */}
                     <div className="">
-                        <div className="cursor-pointer border border-black rounded-lg px-2">
+                        <div className="px-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none cursor-pointer rounded">
                             提交
                         </div>
                     </div>

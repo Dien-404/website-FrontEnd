@@ -18,9 +18,9 @@ function InlineStyle(props) {
             ${italic === true && "italic"}
             ${code === true && "bg-red-100/75 rounded-md font-sans"}`}
         >
-            {value !== "" && " "}
+            <span className="select-none">{value !== "" && " "}</span>
             {value}
-            {value !== "" && " "}
+            <span className="select-none">{value !== "" && " "}</span>
         </span>
     );
 }

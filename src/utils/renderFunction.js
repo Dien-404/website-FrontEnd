@@ -324,7 +324,7 @@ const renderBlockNode = (fileLineArray) => {
         blockNode.value = renderInlineNode(str);
         blockNodes.push(blockNode);
     }
-    console.log(blockNodes);
+    // console.log(blockNodes);
     return blockNodes;
 };
 

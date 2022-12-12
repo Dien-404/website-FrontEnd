@@ -48,7 +48,10 @@ export default function Cate(props) {
     return (
         <div className="bg-gray-100 flex flex-col items-center">
             {cates.map((cateItem) => (
-                <div className="w-full flex flex-col items-center py-2 sm:py-4">
+                <div
+                    key={cateItem.cate}
+                    className="w-full flex flex-col items-center py-2 sm:py-4"
+                >
                     {/* title */}
                     <div className="sticky z-20 top-0 w-full flex justify-center items-center sm:py-1 sm:top-14 text-lg font-mono bg-white select-none duration-300">
                         <Content className=" flex justify-center sm:justify-start">
@@ -59,6 +62,7 @@ export default function Cate(props) {
                     <Content className="sm:py-1 sm:top-14 h-auto duration-500 flex-col items-center flex sm:block">
                         {cateItem.details.map((subclassItem) => (
                             <CateBlock
+                                key={subclassItem.subclass + subclassItem.count}
                                 subclass={subclassItem.subclass}
                                 count={subclassItem.count}
                             />

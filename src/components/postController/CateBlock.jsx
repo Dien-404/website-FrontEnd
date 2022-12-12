@@ -2,8 +2,37 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ScrollBarBeauty from "../basic/ScrollBarBeauty";
 
+function PostCard(props) {
+    const { _id, background, title, description } = props;
+    return (
+        <Link
+            className="flex flex-col bg-white w-full sm:w-72 sm:flex-shrink-0 rounded mb-3 sm:mb-0 sm:mx-1 cursor-pointer"
+            to={`/post/${_id}`}
+        >
+            {/* background */}
+            <div className="h-64 sm:h-48 overflow-hidden">
+                <div
+                    className="h-full bg-cover bg-center rounded-t duration-500 hover:scale-125"
+                    style={{
+                        backgroundImage: `url(${background})`,
+                    }}
+                />
+            </div>
+            {/* introduce */}
+            <div className="px-4 py-1 overflow-hidden">
+                {/* title */}
+                <div className="h-6 overflow-hidden font-bold">{title}</div>
+                {/* description */}
+                <div className="h-24 overflow-hidden">{description}</div>
+            </div>
+        </Link>
+    );
+}
+
 export default function CateBlock(props) {
     const { subclass, count } = props;
+
+    // 根据 subclass 获取posts
     const posts = [
         {
             _id: 1,
@@ -83,32 +112,13 @@ export default function CateBlock(props) {
             <ScrollBarBeauty className="flex flex-col sm:flex-row items-center sm:justify-start pt-3 pb-1 overflow-x-auto">
                 {/* 渲染 */}
                 {posts.map((postItem) => (
-                    <Link
+                    <PostCard
                         key={postItem._id}
-                        className="flex flex-col bg-white w-full sm:w-72 sm:flex-shrink-0 rounded mb-3 sm:mb-0 sm:mx-1 cursor-pointer"
-                        to={`/post/${postItem._id}`}
-                    >
-                        {/* background */}
-                        <div className="h-64 sm:h-48 overflow-hidden">
-                            <div
-                                className="h-full bg-cover bg-center rounded-t duration-500 hover:scale-125"
-                                style={{
-                                    backgroundImage: `url(${postItem.background})`,
-                                }}
-                            />
-                        </div>
-                        {/* introduce */}
-                        <div className="px-4 py-1 overflow-hidden">
-                            {/* title */}
-                            <div className="h-6 overflow-hidden font-bold">
-                                {postItem.title}
-                            </div>
-                            {/* description */}
-                            <div className="h-24 overflow-hidden">
-                                {postItem.description}
-                            </div>
-                        </div>
-                    </Link>
+                        _id={postItem._id}
+                        background={postItem.background}
+                        title={postItem.title}
+                        description={postItem.description}
+                    />
                 ))}
             </ScrollBarBeauty>
         </div>

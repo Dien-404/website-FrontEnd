@@ -35,9 +35,12 @@ function PostCard(props) {
                     {/* 标签、创建时间 */}
                     <span className="w-auto text-xs text-gray-500 cursor-default">
                         {/* 标签 */}
-                        {tag.map((item) => {
+                        {tag.map((item, index) => {
                             return (
-                                <span className="mr-2 px-1 border border-gray-500">
+                                <span
+                                    key={index + item}
+                                    className="mr-2 px-1 border border-gray-500"
+                                >
                                     {item}
                                 </span>
                             );
@@ -53,7 +56,7 @@ function PostCard(props) {
                         </span>
                         {/* 点赞 */}
                         <span className="flex flex-row">
-                            <Like isLike={true} />
+                            <Like />
                             <span className="ml-1">{like}</span>
                         </span>
                     </span>
@@ -144,8 +147,8 @@ export default function PostList(props) {
 
             {/* 列表渲染post */}
             <Content className="grow flex flex-col items-center">
-                {posts.map((item) => (
-                    <PostCard post={item} />
+                {posts.map((item, index) => (
+                    <PostCard key={index + item.title} post={item} />
                 ))}
             </Content>
         </div>
