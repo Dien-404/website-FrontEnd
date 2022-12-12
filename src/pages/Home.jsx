@@ -31,7 +31,7 @@ export default function Home(props) {
             </div>
             {/* 主要内容部分 */}
             <Content className="grow flex flex-col items-center">
-                <PostList postType="popular" />
+                <PostList isHomePage={true} />
             </Content>
         </div>
     );

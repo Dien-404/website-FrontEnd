@@ -4,6 +4,7 @@ import { useDebounceEffect } from "ahooks";
 // 依赖导入
 // 渲染函数导入
 import { renderBlockNode } from "../../utils/renderFunction";
+import { FileUpload, PictureUpload } from "../../assets/SVG";
 // 组件导入
 import Post from "./Post";
 
@@ -33,7 +34,7 @@ function LabelAndTextInput(props) {
             <label className="select-none mr-2">{label}</label>
             <BeautifyTextarea
                 type="text"
-                className="ring-1 grow p-1 outline-none font-mono resize-none focus:ring-lime-500 duration-300"
+                className="ring-1 grow p-1 outline-none font-mono resize-none rounded-sm ring-blue-300 focus:ring-lime-500 duration-300"
                 placeholder={placeholder}
                 rows={rows}
                 maxLength={maxLength}
@@ -51,12 +52,16 @@ export default function Edit() {
     const [title, setTitle] = useState("文章主标题");
     // 文章描述
     const [description, setDescription] = useState("关于文章的说明");
-    // 文章标签
-    const [tag, setTag] = useState("以英文字符,分开多个标签");
+
     // 背景图片
     const [background, setBackground] = useState(
         "https://img2.baidu.com/it/u=2738198884,3183508795&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"
     );
+
+    // 文章标签
+    const [tag, setTag] = useState("标签,标签");
+    // 模拟存放入数据库的标签信息
+
     // 文章内容
     const [inputText, setInputText] = useState(
         "这里是文章主体内容，采用markdown语法规则\n# 一级标题不匹配\n## 二级标题\n### 三级标题\n**加粗字体**"
@@ -109,27 +114,20 @@ export default function Edit() {
                         maxLength={40}
                         rows={1}
                     />
-                    {/* 背景图片 */}
-                    <LabelAndTextInput
-                        label="文章图片"
-                        placeholder="此处填写文章图片url"
-                        value={background}
-                        setValue={setBackground}
-                        rows={1}
-                    />
-                    <div className="flex flex-row justify-between">
-                        {/* 左栏 */}
-                        <div className="w-5/6 h-28 flex justify-center items-center">
-                            背景图片文件上传，上传会清空url，修改url会删除图片文件
+                    {/* 文章图片 */}
+                    <div className="flex flex-row justify-center items-center">
+                        <div className="grow">
+                            <LabelAndTextInput
+                                label="文章图片"
+                                placeholder="此处填写文章图片url"
+                                value={background}
+                                setValue={setBackground}
+                                rows={1}
+                            />
                         </div>
-                        {/* 右栏 */}
-                        <div className="flex flex-col">
-                            <div className="flex mb-2 items-center">
-                                上传文件
-                            </div>
-                            <div className="flex mb-2 items-center">
-                                提交按钮
-                            </div>
+                        {/* 上传 */}
+                        <div className="ml-2 mb-2 p-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none cursor-pointer rounded">
+                            <PictureUpload />
                         </div>
                     </div>
                 </div>
@@ -138,9 +136,20 @@ export default function Edit() {
                     className="w-full p-2 border flex flex-col grow"
                     style={{ minHeight: "20rem" }}
                 >
-                    <label className="select-none">文章内容:</label>
+                    {/* label 及功能项 */}
+                    <div className="flex flex-row justify-between mb-1">
+                        <label className="select-none flex flex-row items-center">
+                            <span className="mr-2">文章内容:</span>
+                            <span className="hidden lg:flex p-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none cursor-pointer rounded">
+                                <FileUpload />
+                            </span>
+                        </label>
+                        <div className="px-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none cursor-pointer rounded">
+                            Submit
+                        </div>
+                    </div>
                     <textarea
-                        className="w-full grow ring-1 p-1 resize-none outline-none focus:ring-lime-500 duration-300"
+                        className="w-full grow ring-1 p-1 resize-none outline-none ring-blue-300 focus:ring-lime-500 duration-300"
                         value={inputText}
                         onChange={(e) => {
                             setInputText(e.target.value);
@@ -154,6 +163,7 @@ export default function Edit() {
                     <Post
                         title={title}
                         description={description}
+                        tag={tag.split(",")}
                         background={background}
                         value={value}
                     />

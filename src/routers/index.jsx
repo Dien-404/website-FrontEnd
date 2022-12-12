@@ -43,19 +43,37 @@ const PostList = lazy(() => {
 const Welcome = lazy(() => {
     return import("../pages/Welcome");
 });
+
+const Admin = lazy(() => {
+    return import("../pages/Admin");
+});
+
+const UserControl = lazy(() => {
+    return import("../components/adminController/UserControl");
+});
+const PostControl = lazy(() => {
+    return import("../components/adminController/PostControl");
+});
+const WebControl = lazy(() => {
+    return import("../components/adminController/WebControl");
+});
+const WebData = lazy(() => {
+    return import("../components/adminController/WebData");
+});
+
 // 管理
-const WebsiteManager = lazy(() => {
-    return import("../components/managerController/WebsiteManager");
-});
-const UserManager = lazy(() => {
-    return import("../components/managerController/UserManager");
-});
-const PostManager = lazy(() => {
-    return import("../components/managerController/PostManager");
-});
-const ConsumeManager = lazy(() => {
-    return import("../components/managerController/ConsumeManager");
-});
+// const WebsiteManager = lazy(() => {
+//     return import("../components/managerController/WebsiteManager");
+// });
+// const UserManager = lazy(() => {
+//     return import("../components/managerController/UserManager");
+// });
+// const PostManager = lazy(() => {
+//     return import("../components/managerController/PostManager");
+// });
+// const ConsumeManager = lazy(() => {
+//     return import("../components/managerController/ConsumeManager");
+// });
 
 export default function Router() {
     return (
@@ -78,17 +96,13 @@ export default function Router() {
                             {/* 类别分类导航 */}
                             <Route path=":cateType" element={<PostList />} />
                         </Route>
-
-                        {/* 文章编辑 测试用 */}
-                        {/* 后续将删除 unsafe */}
-                        {/* <Route path="article/edit" element={<ArticleEdit />} /> */}
-
                         {/* 文章 */}
                         <Route path="post">
                             <Route
                                 index
                                 element={<Navigate to="/cate/all" />}
                             />
+                            {/* edit 页面后续移入 admin 路由 */}
                             <Route path="edit" element={<Edit />} />
                             <Route path=":_id" element={<Post />} />
                         </Route>
@@ -99,14 +113,32 @@ export default function Router() {
                         {/* 登录注册 */}
                         <Route path="/welcome" element={<Welcome />} />
                     </Route>
+
                     {/* 管理页 */}
-                    <Route path="/admin">
+                    <Route path="/admin" element={<Admin />}>
+                        <Route
+                            index
+                            element={
+                                <div className="flex grow justify-center items-center">
+                                    暂未选择功能项
+                                </div>
+                            }
+                        />
+                        <Route path="web" element={<WebControl />} />
+                        <Route path="webdata" element={<WebData />} />
+                        <Route path="user" element={<UserControl />} />
+                        <Route path="post" element={<PostControl />} />
+                        <Route path="*" element={<Navigate to="/admin" />} />
+                    </Route>
+
+                    {/* <Route path="/admin">
                         <Route path="" element={<Navigate to="website" />} />
                         <Route path="website" element={<WebsiteManager />} />
                         <Route path="user" element={<UserManager />} />
                         <Route path="post" element={<PostManager />} />
                         <Route path="consume" element={<ConsumeManager />} />
-                    </Route>
+                    </Route> */}
+
                     {/* 404匹配 */}
                     <Route
                         path="*"

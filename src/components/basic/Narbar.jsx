@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import ScrollBarBeauty from "../ScrollBarBeauty";
+import ScrollBarBeauty from "./ScrollBarBeauty";
 import { MenuOn, MenuOff, Notice, Account } from "../../assets/SVG";
 
 // 网页端NavLink

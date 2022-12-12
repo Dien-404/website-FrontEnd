@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ScrollBarBeauty from "../ScrollBarBeauty";
+import ScrollBarBeauty from "../basic/ScrollBarBeauty";
 
 export default function CateBlock(props) {
     const { subclass, count } = props;

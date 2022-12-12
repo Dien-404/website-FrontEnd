@@ -17,6 +17,7 @@ export default function Post(props) {
         description: editDescription,
         value: editValue,
         background: editBackground,
+        tag: editTag,
     } = props;
 
     // database来源
@@ -89,13 +90,19 @@ export default function Post(props) {
                         <div className="flex flex-row justify-between mb-1">
                             <span className="w-auto text-xs text-gray-500 cursor-default">
                                 {/* 标签 */}
-                                {tag.map((item) => {
-                                    return (
-                                        <span className="mr-2 px-1 border border-gray-500">
-                                            {item}
-                                        </span>
-                                    );
-                                })}
+                                {(editTag === undefined ? tag : editTag).map(
+                                    (item) => {
+                                        return (
+                                            <span
+                                                className={`mr-2 px-1 border border-gray-500 ${
+                                                    item === "" && "hidden"
+                                                }`}
+                                            >
+                                                {item}
+                                            </span>
+                                        );
+                                    }
+                                )}
                                 {/* 创建时间 */}
                                 <span>{createTime}</span>
                             </span>

@@ -53,7 +53,7 @@ function PostCard(props) {
                         </span>
                         {/* 点赞 */}
                         <span className="flex flex-row">
-                            <Like />
+                            <Like isLike={true} />
                             <span className="ml-1">{like}</span>
                         </span>
                     </span>
@@ -77,7 +77,7 @@ function PostCard(props) {
 
 export default function PostList(props) {
     const { cateType } = useParams();
-    const { postType } = props;
+    const { isHomePage } = props;
     const [posts, setPosts] = useState([
         {
             _id: 1,
@@ -123,9 +123,9 @@ export default function PostList(props) {
             <div className="text-4xl font-bold tracking-wide select-none my-3">
                 {/* 优先展示路由 */}
                 {cateType === undefined
-                    ? postType === undefined
+                    ? isHomePage === undefined
                         ? ""
-                        : postType
+                        : "Top Ten"
                     : cateType}
             </div>
 
@@ -133,7 +133,7 @@ export default function PostList(props) {
             {/* 仅首页展示 */}
             <div
                 className={`${
-                    postType === "popular" ? "flex" : "hidden"
+                    isHomePage === true ? "flex" : "hidden"
                 } w-full flex-row justify-end mb-1`}
             >
                 <Link className="text-indigo-500 cursor-pointer" to="/cate/all">
