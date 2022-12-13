@@ -3,6 +3,7 @@ function InlineStyle({
     italic = false,
     bold = false,
     code = false,
+    cancel = false,
     link = false,
     value = undefined,
 }) {
@@ -10,6 +11,7 @@ function InlineStyle({
         italic,
         bold,
         code,
+        cancel,
         link,
         value,
     };
@@ -87,57 +89,55 @@ const renderInlineNode = (nodeValue) => {
         let italic = false,
             bold = false,
             code = false,
+            cancel = false,
             link = false,
             value;
         if (
-            str.slice(0, 3) === "***" &&
-            str.slice(0, 3) === str.slice(str.length - 3, str.length)
+            (str.slice(0, 3) === "***" &&
+                str.slice(str.length - 3, str.length) === "***") ||
+            (str.slice(0, 3) === "___" &&
+                str.slice(str.length - 3, str.length) === "___")
         ) {
+            // 粗斜体
             italic = true;
             bold = true;
             value = str.slice(3, str.length - 3);
         } else if (
-            str.slice(0, 2) === "**" &&
-            str.slice(0, 2) === str.slice(str.length - 2, str.length)
+            (str.slice(0, 2) === "**" &&
+                str.slice(str.length - 2, str.length) === "**") ||
+            (str.slice(0, 2) === "__" &&
+                str.slice(str.length - 2, str.length) === "__")
         ) {
+            // 粗体
             bold = true;
             value = str.slice(2, str.length - 2);
-        } else if (str[0] === "*" && str[0] === str[str.length - 1]) {
+        } else if (
+            (str[0] === "*" && str[str.length - 1] === "*") ||
+            (str[0] === "_" && str[str.length - 1]) === "_"
+        ) {
+            // 斜体
             italic = true;
             value = str.slice(1, str.length - 1);
+        } else if (
+            str.slice(0, 2) === "~~" &&
+            str.slice(str.length - 2, str.length) === "~~"
+        ) {
+            // 删除线
+            cancel = true;
+            value = str.slice(2, str.length - 2);
         }
 
         if (str.match(/`.*?`/)) {
             // 粗斜体内存在代码块
-            return handleCode(value, italic, bold);
+            return handleCode(value, italic, bold, link);
         } else {
             // 粗斜体内不存在代码块
-            // 粗斜体
-            if (italic && bold) {
+            if (italic || bold || code || cancel || link) {
                 return new InlineStyle({
                     italic,
                     bold,
                     code,
-                    link,
-                    value,
-                });
-            }
-            // 粗体
-            if (bold && !italic) {
-                return new InlineStyle({
-                    italic,
-                    bold,
-                    code,
-                    link,
-                    value,
-                });
-            }
-            // 斜体
-            if (italic && !bold) {
-                return new InlineStyle({
-                    italic,
-                    bold,
-                    code,
+                    cancel,
                     link,
                     value,
                 });
@@ -145,13 +145,26 @@ const renderInlineNode = (nodeValue) => {
         }
     };
 
-    while (nodeValue.match(/\*{1,3}.*?\*{1,3}/) || nodeValue.match(/`.*?`/)) {
+    while (
+        // ***code*** **code** *code* ___code___ __code__ _code_ ~~code~~ `code` 情况
+        nodeValue.match(/\*{1,3}.*?\*{1,3}/) ||
+        nodeValue.match(/_{1,3}.*?_{1,3}/) ||
+        nodeValue.match(/~~.*?~~/) ||
+        nodeValue.match(/`.*?`/)
+    ) {
         let str, // 处理行内代码
             matchItem, // 处理当前粗斜体匹配对象 -> 匹配的字符串
             matchIndex; // 处理当前粗斜体匹配对象 -> 匹配的下标
-        if (nodeValue.match(/\*{1,3}.*?\*{1,3}/)) {
+        if (
+            nodeValue.match(/\*{1,3}.*?\*{1,3}/) ||
+            nodeValue.match(/_{1,3}.*?_{1,3}/) ||
+            nodeValue.match(/~~.*?~~/)
+        ) {
             // 存在 加粗、斜体情况
-            let { 0: match, index } = nodeValue.match(/\*{1,3}.*?\*{1,3}/);
+            let { 0: match, index } =
+                nodeValue.match(/\*{1,3}.*?\*{1,3}/) ||
+                nodeValue.match(/_{1,3}.*?_{1,3}/) ||
+                nodeValue.match(/~~.*?~~/);
             matchItem = match;
             matchIndex = index;
             // 匹配字符串前的字符串出现的代码块
@@ -321,10 +334,19 @@ const renderBlockNode = (fileLineArray) => {
 
         // 默认情况，以上所有情况不触发，则触发此情况
         blockNode.type = "parallel";
-        blockNode.value = renderInlineNode(str);
+        if (str === "") {
+            blockNode.tag = "br";
+        } else if (str === "---") {
+            blockNode.tag = "dv";
+        } else {
+            blockNode.tag = "default";
+            blockNode.value = renderInlineNode(str);
+        }
         blockNodes.push(blockNode);
+        // 默认情况，以上所有情况不触发，则触发此情况
     }
     // console.log(blockNodes);
+    // console.log(JSON.stringify(blockNodes));
     return blockNodes;
 };
 

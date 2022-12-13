@@ -74,7 +74,7 @@ export default function Post(props) {
                 isPost={true}
             >
                 {/* 非 value 属性渲染 => title, background, description, like, visit, createTime*/}
-                <div className="mb-4">
+                <div className="mb-3">
                     {/* 主标题 */}
                     <Title
                         tag="first"
@@ -82,7 +82,7 @@ export default function Post(props) {
                         value={[title]}
                     />
                     {/* 渲染背景及描述等 */}
-                    <div className="p-2 mb-3 rounded bg-gray-50 hover:bg-gray-100 duration-300">
+                    <div className="p-2 mb-2 rounded bg-gray-50 hover:bg-gray-100 duration-300">
                         <div className="flex flex-row justify-between mb-1">
                             <span className="w-auto text-xs text-gray-500 cursor-default">
                                 {/* 标签 */}
@@ -90,7 +90,9 @@ export default function Post(props) {
                                     return (
                                         <span
                                             className={`mr-2 px-1 border border-gray-500 ${
-                                                item === "flex" && "hidden"
+                                                item === ""
+                                                    ? "hidden"
+                                                    : "inline-block"
                                             }`}
                                             key={item + index}
                                         >
@@ -99,7 +101,11 @@ export default function Post(props) {
                                     );
                                 })}
                                 {/* 创建时间 */}
-                                <span>{createTime}</span>
+                                <span>
+                                    {createTime === undefined
+                                        ? "date will be created auto"
+                                        : createTime}
+                                </span>
                             </span>
                             {/* 访客量及点赞数 */}
                             <span className="flex flex-row font-mono select-none">
@@ -119,74 +125,68 @@ export default function Post(props) {
                                 </span>
                             </span>
                         </div>
-                        <div className="">
-                            {/* edit页面 */}
-                            {description}
-                        </div>
+                        {/* description */}
+                        <div>{description}</div>
                     </div>
                     {/* 背景 */}
                     <div className="w-full flex justify-center items-center select-none">
                         <img
                             src={background}
-                            alt="background"
-                            className="w-full"
+                            alt="fail to get background"
+                            className={`w-full ${
+                                background === "" ? "hidden" : "flex"
+                            }`}
                         />
                     </div>
                 </div>
 
                 {/* 内容渲染 */}
                 <div>
-                    {value?.map((item) => {
-                        // 标题
-                        if (item.type === "title") {
-                            return (
-                                <Title
-                                    key={JSON.stringify(item)}
-                                    tag={item.tag}
-                                    value={item.value}
-                                />
-                            );
+                    {value?.map((item, index) => {
+                        switch (item.type) {
+                            case "title":
+                                return (
+                                    <Title
+                                        key={JSON.stringify(item) + index}
+                                        tag={item.tag}
+                                        value={item.value}
+                                    />
+                                );
+                            case "parallel":
+                                return (
+                                    <Paragraph
+                                        key={JSON.stringify(item) + index}
+                                        tag={item.tag}
+                                        value={item.value}
+                                    />
+                                );
+                            case "code":
+                                return (
+                                    <Code
+                                        key={JSON.stringify(item) + index}
+                                        value={item.value}
+                                    />
+                                );
+                            case "asset":
+                                return (
+                                    <img
+                                        key={JSON.stringify(item) + index}
+                                        alt={item.alt}
+                                        src={item.src}
+                                        className="select-none border"
+                                    />
+                                );
+                            case "list":
+                                return (
+                                    <List
+                                        key={JSON.stringify(item) + index}
+                                        tag={item.tag}
+                                        value={item.value}
+                                    />
+                                );
+                            default:
+                                return void 0;
                         }
-                        // 段落
-                        if (item.type === "parallel") {
-                            return (
-                                <Paragraph
-                                    key={JSON.stringify(item)}
-                                    value={item.value}
-                                />
-                            );
-                        }
-                        // 代码块
-                        if (item.type === "code") {
-                            return (
-                                <Code
-                                    key={JSON.stringify(item)}
-                                    value={item.value}
-                                />
-                            );
-                        }
-                        // 图片资源
-                        if (item.type === "asset") {
-                            return (
-                                <img
-                                    key={JSON.stringify(item)}
-                                    alt={item.alt}
-                                    src={item.src}
-                                    className="select-none border"
-                                />
-                            );
-                        }
-                        // 列表
-                        if (item.type === "list") {
-                            return (
-                                <List
-                                    key={JSON.stringify(item)}
-                                    listType={item.listType}
-                                    value={item.value}
-                                />
-                            );
-                        }
-                        return void 0;
                     })}
                 </div>
             </Content>

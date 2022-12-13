@@ -13,25 +13,14 @@ export default function List(props) {
         <div>
             {/* 此处为一个列表块 */}
             {value.map((item, index) => (
-                <div>
+                <div key={JSON.stringify(item) + index}>
                     {/* 此处为列表块中的一行 item */}
-                    <span className="whitespace-pre text-indigo-500">
-                        {tag === true ? index + 1 + ". " : "-  "}
+                    <span className="whitespace-pre text-indigo-500 mr-1">
+                        {tag === true ? index + 1 : "-"}
                     </span>
                     <InlineStyleRenderer value={item} />
                 </div>
             ))}
         </div>
     );
-
-    // // 以下仅渲染列表行，不包含在一个列表块中
-    // return value.map((item, index) => (
-    //     <div>
-    //         <span className="whitespace-pre text-indigo-500">
-    //             {props.tag === true ? index + 1 + ". " : "-  "}
-    //         </span>
-    //         {/* {item} */}
-    //         <InlineStyleRenderer value={item} />
-    //     </div>
-    // ));
 }
