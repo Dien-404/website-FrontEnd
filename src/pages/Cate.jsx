@@ -1,49 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CateBlock from "../components/postController/CateBlock";
 import Content from "../components/basic/Content";
 
+import { http, GETCATES } from "../utils/request";
+
 export default function Cate(props) {
-    const cates = [
-        {
-            cate: "前端 Front-end",
-            details: [
-                {
-                    subclass: "React",
-                    count: 5,
-                },
-                {
-                    subclass: "JavaScript",
-                    count: 0,
-                },
-            ],
-        },
-        {
-            cate: "后端 Back-end",
-            details: [
-                {
-                    subclass: "docker",
-                    count: 0,
-                },
-                {
-                    subclass: "mongodb",
-                    count: 0,
-                },
-            ],
-        },
-        {
-            cate: "其他 Others",
-            details: [
-                {
-                    subclass: "日常",
-                    count: 0,
-                },
-                {
-                    subclass: "未分类",
-                    count: 0,
-                },
-            ],
-        },
-    ];
+    const [cates, setCates] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const res = await http.post(GETCATES);
+            console.log(res);
+            if (res.status === 200) {
+                setCates(res.data.data);
+            } else {
+                console.log("wrong");
+            }
+        })();
+    }, []);
 
     return (
         <div className="bg-gray-100 flex flex-col items-center">
@@ -63,6 +37,7 @@ export default function Cate(props) {
                         {cateItem.details.map((subclassItem) => (
                             <CateBlock
                                 key={subclassItem.subclass + subclassItem.count}
+                                cate={cateItem.cate}
                                 subclass={subclassItem.subclass}
                                 count={subclassItem.count}
                             />

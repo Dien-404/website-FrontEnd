@@ -39,21 +39,22 @@ export default function Welcome() {
 
     // 处理提交
     function handleSubmmit() {
-        if (loginSeleted) {
-            const login = {
-                email,
-                password,
-            };
-            alert("此处应发送请求" + JSON.stringify(login));
-        } else {
-            const regist = {
-                email,
-                password,
-                correctPassword,
-                code,
-            };
-            alert("此处应发送请求" + JSON.stringify(regist));
-        }
+        // if (loginSeleted) {
+        //     const login = {
+        //         email,
+        //         password,
+        //     };
+        //     alert("此处应发送请求" + JSON.stringify(login));
+        // } else {
+        //     const regist = {
+        //         email,
+        //         password,
+        //         correctPassword,
+        //         code,
+        //     };
+        //     alert("此处应发送请求" + JSON.stringify(regist));
+        // }
+        alert("暂未支持处理用户信息");
     }
 
     // 邮件

@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+
+import { http, GETLIST } from "../../utils/request";
+// import { Like, Visit } from "../../assets/SVG";
 import ScrollBarBeauty from "../basic/ScrollBarBeauty";
 
 function PostCard(props) {
-    const { _id, background, title, description } = props;
+    const {
+        _id,
+        title,
+        // tag,
+        description,
+        background,
+        // like,
+        // visit,
+        // createTime,
+    } = props;
     return (
         <Link
-            className="flex flex-col bg-white w-full sm:w-72 sm:flex-shrink-0 rounded mb-3 sm:mb-0 sm:mx-1 cursor-pointer"
+            className="flex flex-col bg-white w-full sm:w-80 sm:flex-shrink-0 rounded mb-3 sm:mb-0 sm:mx-1 cursor-pointer"
             to={`/post/${_id}`}
         >
             {/* background */}
-            <div className="h-64 sm:h-48 overflow-hidden">
+            <div className="h-64 sm:h-52 overflow-hidden">
                 <div
                     className="h-full bg-cover bg-center rounded-t duration-500 hover:scale-125"
                     style={{
@@ -30,59 +42,18 @@ function PostCard(props) {
 }
 
 export default function CateBlock(props) {
-    const { subclass, count } = props;
+    const { cate, subclass, count } = props;
+    const [posts, setPosts] = useState([]);
 
-    // 根据 subclass 获取posts
-    const posts = [
-        {
-            _id: 1,
-            background:
-                "https://img0.baidu.com/it/u=3727699935,3926869265&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
-            title: "如何使用Tailwind快速设计CSS12121212",
-            description:
-                "description and more contentand ………… description …………这里是关于以下打开内容的介绍详情这里是关于以下打开内开内容的介绍详情这里是关于以下打开内容的介绍详情",
-            createTime: "",
-            tag: [],
-            like: 0,
-            visit: 0,
-        },
-        {
-            _id: 2,
-            background:
-                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
-            title: "如何使用React",
-            description:
-                "description and more contentand ………… description …………这里是关于以下打开内容的介绍详情这里是关于以下打开内开内容的介绍详情这里是关于以下打开内容的介绍详情",
-            createTime: "",
-            tag: [],
-            like: 0,
-            visit: 0,
-        },
-        {
-            _id: 3,
-            background:
-                "https://img1.baidu.com/it/u=4027920460,3249220960&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500",
-            title: "Javascript的使用教程之135",
-            description:
-                "description and more contentand ………… description …………这里是关于以下打开内容的介绍详情这里是关于以下打开内开内容的介绍详情这里是关于以下打开内容的介绍详情",
-            createTime: "",
-            tag: [],
-            like: 0,
-            visit: 0,
-        },
-        {
-            _id: 4,
-            background:
-                "https://img2.baidu.com/it/u=2738198884,3183508795&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281",
-            title: "olypic",
-            description:
-                "description and more contentand ………… description …………这里是关于以下打开内容的介绍详情这里是关于以下打开内开内容的介绍详情这里是关于以下打开内容的介绍详情",
-            createTime: "",
-            tag: [],
-            like: 0,
-            visit: 0,
-        },
-    ];
+    useEffect(() => {
+        console.log("fetch data => posts");
+        (async () => {
+            const res = await http.post(GETLIST, { cate, subclass, num: 4 });
+            if (res.status === 200) {
+                setPosts(res.data.data);
+            }
+        })();
+    }, [cate, subclass, count]);
 
     return (
         <div
@@ -111,15 +82,25 @@ export default function CateBlock(props) {
             {/* posts */}
             <ScrollBarBeauty className="flex flex-col sm:flex-row items-center sm:justify-start pt-3 pb-1 overflow-x-auto">
                 {/* 渲染 */}
-                {posts.map((postItem) => (
-                    <PostCard
-                        key={postItem._id}
-                        _id={postItem._id}
-                        background={postItem.background}
-                        title={postItem.title}
-                        description={postItem.description}
-                    />
-                ))}
+                {count === 0 ? (
+                    <div className="flex grow justify-center items-center select-none cursor-not-allowed">
+                        暂且无更多内容
+                    </div>
+                ) : (
+                    posts.map((postItem) => (
+                        <PostCard
+                            key={postItem._id}
+                            _id={postItem._id}
+                            title={postItem.title}
+                            // tag={postItem.tag}
+                            description={postItem.description}
+                            background={postItem.background}
+                            // like={postItem.like}
+                            // visit={postItem.visit}
+                            // createTime={postItem.createTime}
+                        />
+                    ))
+                )}
             </ScrollBarBeauty>
         </div>
     );

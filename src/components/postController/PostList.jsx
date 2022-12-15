@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 
 import Content from "../basic/Content";
 import { Like, Visit } from "../../assets/SVG";
+import { http, GETLIST } from "../../utils/request";
 
 function PostCard(props) {
     const {
@@ -21,7 +22,7 @@ function PostCard(props) {
 
     return (
         <Link
-            className="bg-white mb-5 flex flex-col sm:rounded md:flex-row shadow"
+            className="w-full bg-white mb-5 flex flex-col sm:rounded md:flex-row md:justify-between shadow"
             to={`/post/${_id}`}
         >
             {/* 详细信息 */}
@@ -81,47 +82,27 @@ function PostCard(props) {
 export default function PostList(props) {
     const { cateType } = useParams();
     const { isHomePage } = props;
-    const [posts, setPosts] = useState([
-        {
-            _id: 1,
-            title: "React 生命周期",
-            tag: ["React", "基础", "组件"],
-            description:
-                "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
-            background:
-                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
-            like: 3,
-            visit: 0,
-            createTime: "2022/11/9",
-        },
-        {
-            _id: 2,
-            title: "React 生命周期",
-            tag: ["React", "基础", "组件"],
-            description:
-                "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
-            background:
-                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
-            like: 3,
-            visit: 0,
-            createTime: "2022/11/9",
-        },
-        {
-            _id: 3,
-            title: "React 生命周期",
-            tag: ["React", "基础", "组件"],
-            description:
-                "React 生命周期是 React 组件开发中必须掌握的基础，如何利用组件生命周期对组件的更新、卸载等有着不可或缺的重要性，其次对后期组件的维护有着极高的意义",
-            background:
-                "https://img0.baidu.com/it/u=3650583406,3707431716&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
-            like: 3,
-            visit: 0,
-            createTime: "2022/11/9",
-        },
-    ]);
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        //   Axios.post("http://localhost:8080/posts/getlist")
+        (async () => {
+            let myreq =
+                isHomePage === true
+                    ? { postType: "index", num: 10 }
+                    : cateType === "all"
+                    ? {}
+                    : { postType: "cate", cate: cateType, subclass: cateType };
+
+            const res = await http.post(GETLIST, myreq);
+            if (res.status === 200) {
+                setPosts(res.data.data);
+            }
+        })();
+    }, [cateType, isHomePage]);
 
     return (
-        <div className="h-full flex flex-col items-center">
+        <div className="h-full w-full flex flex-col items-center">
             {/* 标题 */}
             <div className="text-4xl font-bold tracking-wide select-none my-3">
                 {/* 优先展示路由 */}
@@ -135,11 +116,18 @@ export default function PostList(props) {
             {/* ***** */}
             {/* 仅首页展示 */}
             <div
-                className={`${
+                className={`w-full flex-row justify-end mb-1 ${
                     isHomePage === true ? "flex" : "hidden"
-                } w-full flex-row justify-end mb-1`}
+                }`}
             >
-                <Link className="text-indigo-500 cursor-pointer" to="/cate/all">
+                <Link
+                    className={`${
+                        posts.length === 0
+                            ? "text-gray-300 cursor-default"
+                            : "text-indigo-500 cursor-pointer"
+                    }`}
+                    to={posts.length === 0 ? "" : "/cate/all"}
+                >
                     全部＋
                 </Link>
             </div>
@@ -147,9 +135,15 @@ export default function PostList(props) {
 
             {/* 列表渲染post */}
             <Content className="grow flex flex-col items-center">
-                {posts.map((item, index) => (
-                    <PostCard key={index + item.title} post={item} />
-                ))}
+                {posts.length === 0 ? (
+                    <div className="w-full flex justify-center items-center">
+                        暂无相关内容
+                    </div>
+                ) : (
+                    posts.map((item, index) => (
+                        <PostCard key={index + item.title} post={item} />
+                    ))
+                )}
             </Content>
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { http, GETDETAIL } from "../../utils/request";
 import { Like, Visit } from "../../assets/SVG";
 
 import Content from "../basic/Content";
@@ -15,37 +16,17 @@ export default function Post(props) {
 
     // fetch data
     useEffect(() => {
-        setPost({
-            _id: 1,
-            title: "React 生命周期",
-            tag: ["react", "进阶"],
-            description: "这是一条关于文章的说明",
-            background:
-                "https://img2.baidu.com/it/u=2738198884,3183508795&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281",
-            like: 0,
-            visit: 0,
-            createTime: "2022/11/13",
-            value: [
-                {
-                    type: "parallel",
-                    value: ["这里是文章主体内容，采用markdown语法规则"],
-                },
-                { type: "parallel", value: ["# 一级标题不匹配"] },
-                { type: "title", tag: "second", value: ["二级标题"] },
-                { type: "title", tag: "third", value: ["三级标题"] },
-                {
-                    type: "parallel",
-                    value: [
-                        {
-                            italic: false,
-                            bold: true,
-                            code: false,
-                            value: "加粗字体",
-                        },
-                    ],
-                },
-            ],
-        });
+        (async () => {
+            if (_id !== undefined) {
+                const res = await http.post(GETDETAIL, {
+                    _id,
+                });
+                console.log(res);
+                if (res.status === 200) {
+                    setPost(res.data.data);
+                }
+            }
+        })();
     }, [_id]);
 
     // 当前用户是否喜欢
@@ -112,7 +93,9 @@ export default function Post(props) {
                                 {/* 访客 */}
                                 <span className="flex flex-row mr-3 cursor-default">
                                     <Visit />
-                                    <span className="ml-1">{visit}</span>
+                                    <span className="ml-1">
+                                        {visit === undefined ? 0 : visit}
+                                    </span>
                                 </span>
                                 {/* 点赞 */}
                                 <span className="flex flex-row cursor-pointer">

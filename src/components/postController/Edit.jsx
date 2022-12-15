@@ -79,10 +79,14 @@ export default function Edit() {
     const [tag, setTag] = useState([]);
     // 文章描述
     const [description, setDescription] = useState("");
-    // 文章信息
-    const [value, setValue] = useState([]);
     // 图片
     const [background, setBackground] = useState("");
+    // 文章信息
+    const [value, setValue] = useState([]);
+    // 类别
+    const [cate, setCate] = useState("其他");
+    // 小类
+    const [subclass, setSubclass] = useState("未分类");
 
     // 处理 markdown 文本文件输入
     function handleFileUpload(e) {
@@ -120,8 +124,16 @@ export default function Edit() {
 
     // 处理表单提交
     function handleSubmit() {
-        const submit = { title, tag, description, background };
-        console.log(submit);
+        const submit = {
+            title,
+            tag,
+            description,
+            background,
+            value,
+            cate,
+            subclass,
+        };
+        console.log(JSON.stringify(submit));
     }
 
     // ahooks 防抖

@@ -11,6 +11,11 @@ const Scrollbar = styled.textarea`
 export default function Feedback(props) {
     const [contact, setContact] = useState("");
     const [content, setContent] = useState("");
+
+    function handleSubmit() {
+        console.log("暂未处理邮件发送");
+    }
+
     return (
         <div className="w-full h-full flex justify-center items-center md:flex-row md:justify-evenly p-2">
             <div className="hidden md:flex justify-center items-center grow max-w-xs lg:max-w-sm h-full">
@@ -69,7 +74,12 @@ export default function Feedback(props) {
                     </div>
                     {/* Submit */}
                     <div className="">
-                        <div className="px-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none cursor-pointer rounded">
+                        <div
+                            className="px-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none cursor-pointer rounded"
+                            onClick={() => {
+                                handleSubmit();
+                            }}
+                        >
                             提交
                         </div>
                     </div>

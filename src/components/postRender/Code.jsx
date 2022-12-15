@@ -4,7 +4,7 @@ export default function Code(props) {
     const { value } = props;
     return (
         <div
-            className={`bg-gray-700/70 text-orange-400 rounded whitespace-pre
+            className={`bg-gray-100 rounded whitespace-pre
             ${value.length !== 0 && "p-5"}`}
         >
             {value.map((item, index) => (
