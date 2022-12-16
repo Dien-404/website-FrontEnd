@@ -10,7 +10,6 @@ export default function Cate(props) {
     useEffect(() => {
         (async () => {
             const res = await http.post(GETCATES);
-            console.log(res);
             if (res.status === 200) {
                 setCates(res.data.data);
             } else {

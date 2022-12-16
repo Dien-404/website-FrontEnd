@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import { http, SENDMAIL } from "../utils/request";
 import { FeedbackL, FeedbackR } from "../assets/SVG";
 
 const Scrollbar = styled.textarea`
@@ -8,12 +9,29 @@ const Scrollbar = styled.textarea`
         display: none;
     }
 `;
-export default function Feedback(props) {
+export default function Feedback() {
     const [contact, setContact] = useState("");
     const [content, setContent] = useState("");
 
-    function handleSubmit() {
-        console.log("暂未处理邮件发送");
+    async function handleSubmit() {
+        if (
+            contact.match(
+                /(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)*.[a-zA-Z0-9]{2,6}$)|(^1[3456789]\d{9}$)/
+            ) === null
+        ) {
+            alert("请输入正确的邮件格式或手机号码");
+        } else {
+            const res = await http.post(SENDMAIL, {
+                action: "feedback",
+                contact,
+                text: content,
+            });
+            if (res.status === 200) {
+                alert("邮件发送成功");
+            } else {
+                alert("邮件发送失败");
+            }
+        }
     }
 
     return (
@@ -51,6 +69,7 @@ export default function Feedback(props) {
                                 className="outline-none border border-black rounded-sm w-full px-1"
                                 type="text"
                                 value={contact}
+                                placeholder="仅支持邮箱或手机号码"
                                 onChange={(e) => {
                                     setContact(e.target.value);
                                 }}

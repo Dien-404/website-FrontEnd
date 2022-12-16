@@ -46,11 +46,12 @@ export default function CateBlock(props) {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        console.log("fetch data => posts");
         (async () => {
             const res = await http.post(GETLIST, { cate, subclass, num: 4 });
             if (res.status === 200) {
                 setPosts(res.data.data);
+            } else {
+                console.log("wrong in cateblock");
             }
         })();
     }, [cate, subclass, count]);

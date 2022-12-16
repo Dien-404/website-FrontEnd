@@ -16,5 +16,6 @@ const http = {
 const GETLIST = "/posts/getlist";
 const GETCATES = "/cates/getcates";
 const GETDETAIL = "/posts/getdetail";
+const SENDMAIL = "/sendmail";
 
-export { http, GETLIST, GETCATES, GETDETAIL };
+export { http, GETLIST, GETCATES, GETDETAIL, SENDMAIL };

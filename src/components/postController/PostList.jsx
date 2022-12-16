@@ -3,21 +3,22 @@ import { useParams, Link } from "react-router-dom";
 
 import Content from "../basic/Content";
 import { Like, Visit } from "../../assets/SVG";
+import { format } from "../../utils/timeTransfer";
 import { http, GETLIST } from "../../utils/request";
 
 function PostCard(props) {
     const {
         _id,
         title,
-        cate,
-        subclass,
+        // cate,
+        // subclass,
         tag,
         description,
         background,
         like,
         visit,
         createTime,
-        comment,
+        // comment,
     } = props.post;
 
     return (
@@ -26,7 +27,7 @@ function PostCard(props) {
             to={`/post/${_id}`}
         >
             {/* 详细信息 */}
-            <div className="flex flex-col px-4 pt-4 pb-2 cursor-pointer">
+            <div className="flex flex-col grow px-4 pt-4 pb-2 cursor-pointer">
                 {/* 标题 */}
                 <div className="text-2xl font-bold mb-2 duration-500 text-sky-500 hover:text-emerald-400">
                     {title}
@@ -47,7 +48,7 @@ function PostCard(props) {
                             );
                         })}
                         {/* 创建时间 */}
-                        <span>{createTime}</span>
+                        <span>{format(createTime)}</span>
                     </span>
                     <span className="flex flex-row font-mono cursor-default">
                         {/* 访客 */}
