@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { http, SENDMAIL } from "../utils/request";
+import { http, FEEDBACK } from "../utils/request";
 import { FeedbackL, FeedbackR } from "../assets/SVG";
 
 const Scrollbar = styled.textarea`
@@ -21,7 +21,7 @@ export default function Feedback() {
         ) {
             alert("请输入正确的邮件格式或手机号码");
         } else {
-            const res = await http.post(SENDMAIL, {
+            const res = await http.post(FEEDBACK, {
                 action: "feedback",
                 contact,
                 text: content,

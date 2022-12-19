@@ -13,9 +13,21 @@ const http = {
 };
 
 // 地址
-const GETLIST = "/posts/getlist";
-const GETCATES = "/cates/getcates";
-const GETDETAIL = "/posts/getdetail";
-const SENDMAIL = "/sendmail";
+const GETLIST = "/posts/getpostlist";
+const GETCATES = "/cates/catepage";
+const GETDETAIL = "/posts/getsinglepost";
+const FEEDBACK = "/feedback";
+const SENDCODE = "/users/sendcode";
+const LOGIN = "/users/login";
+const REGIST = "/users/regist";
 
-export { http, GETLIST, GETCATES, GETDETAIL, SENDMAIL };
+export {
+    http,
+    GETLIST,
+    GETCATES,
+    GETDETAIL,
+    FEEDBACK,
+    SENDCODE,
+    LOGIN,
+    REGIST,
+};

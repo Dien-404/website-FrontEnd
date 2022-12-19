@@ -86,7 +86,6 @@ export default function PostList(props) {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        //   Axios.post("http://localhost:8080/posts/getlist")
         (async () => {
             let myreq =
                 isHomePage === true

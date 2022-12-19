@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import regist from "../assets/regist.png";
 import login from "../assets/login.png";
+
+import { http, SENDCODE, LOGIN, REGIST } from "../utils/request";
 
 // 输入组件
 function MyInput(props) {
@@ -27,6 +29,15 @@ export default function Welcome() {
     const [password, setPassword] = useState("");
     const [correctPassword, setCorrectPassword] = useState("");
     const [code, setCode] = useState("");
+    const [isSend, setIsSend] = useState(0);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (isSend > 0) {
+                setIsSend((pre) => pre - 1);
+            }
+        }, 1000);
+    }, [isSend]);
 
     // 处理登录注册切换
     function changeAndClear() {
@@ -38,23 +49,57 @@ export default function Welcome() {
     }
 
     // 处理提交
-    function handleSubmmit() {
-        // if (loginSeleted) {
-        //     const login = {
-        //         email,
-        //         password,
-        //     };
-        //     alert("此处应发送请求" + JSON.stringify(login));
-        // } else {
-        //     const regist = {
-        //         email,
-        //         password,
-        //         correctPassword,
-        //         code,
-        //     };
-        //     alert("此处应发送请求" + JSON.stringify(regist));
-        // }
-        alert("暂未支持处理用户信息");
+    async function handleSubmmit() {
+        if (loginSeleted) {
+            const login = {
+                email,
+                pwd: password,
+            };
+            try {
+                const res = await http.post(LOGIN, login);
+                if (res.status === 200) {
+                    alert("login success");
+                }
+            } catch (err) {
+                alert(err);
+            }
+        } else {
+            const regist = {
+                email,
+                pwd: password,
+                npwd: correctPassword,
+                code,
+            };
+            try {
+                const res = await http.post(REGIST, regist);
+                if (res.status === 200) {
+                    alert("regist success");
+                }
+            } catch (err) {
+                alert(err);
+            }
+        }
+    }
+
+    async function handleCode() {
+        if (
+            email.match(
+                /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)*.[a-zA-Z0-9]{2,6}$/
+            ) === null
+        ) {
+            alert("邮箱格式不正确");
+        } else {
+            const res = await http.post(SENDCODE, { email });
+            if (res.status === 200) {
+                setIsSend(60);
+                alert("验证码发送成功");
+            } else if (res.status === 204) {
+                setIsSend(60);
+                alert("请稍后再试");
+            } else {
+                alert("wrong");
+            }
+        }
     }
 
     // 邮件
@@ -76,6 +121,7 @@ export default function Welcome() {
             <MyInput
                 placeholder="密码"
                 type="password"
+                pattern=".{8,16}"
                 value={password}
                 setValue={setPassword}
             />
@@ -88,6 +134,7 @@ export default function Welcome() {
             <MyInput
                 placeholder="确认密码"
                 type="password"
+                pattern=".{8,16}"
                 value={correctPassword}
                 setValue={setCorrectPassword}
             />
@@ -106,12 +153,16 @@ export default function Welcome() {
                 setValue={setCode}
             />
             <div
-                className=" absolute top-1/4 right-0 px-1 text-sm cursor-pointer"
+                className={`absolute top-1/4 right-0 px-1 text-sm ${
+                    isSend !== 0 ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
                 onClick={() => {
-                    console.log("sending code");
+                    if (isSend === 0) {
+                        handleCode();
+                    }
                 }}
             >
-                发送
+                {isSend === 0 ? "发送验证码" : `请等候${isSend}秒`}
             </div>
         </div>
     );
