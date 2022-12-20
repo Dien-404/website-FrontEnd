@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+
+import { MyContext } from "../routers/index";
 
 import { http, FEEDBACK } from "../utils/request";
 import { FeedbackL, FeedbackR } from "../assets/SVG";
@@ -10,8 +12,13 @@ const Scrollbar = styled.textarea`
     }
 `;
 export default function Feedback() {
+    const { loginUser } = useContext(MyContext);
     const [contact, setContact] = useState("");
     const [content, setContent] = useState("");
+
+    useEffect(() => {
+        setContact(loginUser);
+    }, [loginUser]);
 
     async function handleSubmit() {
         if (

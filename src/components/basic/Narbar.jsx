@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { MyContext } from "../../routers/index";
 import ScrollBarBeauty from "./ScrollBarBeauty";
 import { MenuOn, MenuOff, Notice, Account } from "../../assets/SVG";
 
@@ -14,7 +15,8 @@ function WebNavLink(props) {
 }
 
 // 网页端NarBar
-function WebNavBar() {
+function WebNavBar(props) {
+    const { email } = props;
     return (
         <div className="hidden sm:flex h-14 flex-row justify-between items-center px-3">
             {/* LOGO */}
@@ -30,7 +32,10 @@ function WebNavBar() {
             </div>
             {/* 用户 */}
             <div className="w-28 flex justify-end">
-                <WebNavLink to="/welcome" content="账号" />
+                <WebNavLink
+                    to={email !== undefined ? "/user" : "/welcome"}
+                    content={email !== undefined ? email : "账号"}
+                />
             </div>
         </div>
     );
@@ -55,7 +60,8 @@ function MobileNavLink(props) {
 }
 
 // 移动端NavBar
-function MobileNavBar() {
+function MobileNavBar(props) {
+    const { email } = props;
     const [isMenuOn, setIsMenuOn] = useState(false);
     return (
         <div
@@ -99,7 +105,7 @@ function MobileNavBar() {
                     {/* 通知 */}
                     <Link
                         className="mx-1 p-1"
-                        to="/welcome"
+                        to={email !== undefined ? "/user/notice" : "/welcome"}
                         onClick={() => {
                             setIsMenuOn(false);
                         }}
@@ -109,7 +115,7 @@ function MobileNavBar() {
                     {/* 账户 */}
                     <Link
                         className="mx-1 p-1"
-                        to="/welcome"
+                        to={email !== undefined ? "/user" : "/welcome"}
                         onClick={() => {
                             setIsMenuOn(false);
                         }}
@@ -146,12 +152,13 @@ function MobileNavBar() {
 }
 
 export default function Narbar() {
+    const { loginUser } = useContext(MyContext);
     return (
         <div className="w-full shrink-0 fixed z-30 bg-black text-gray-300 font-bold select-none duration-300">
             {/* web端 */}
-            <WebNavBar />
+            <WebNavBar email={loginUser} />
             {/* 移动端 */}
-            <MobileNavBar />
+            <MobileNavBar email={loginUser} />
         </div>
     );
 }

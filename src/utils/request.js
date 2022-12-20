@@ -6,6 +6,19 @@ const instance = axios.create({
     timeout: 5000,
 });
 
+// 拦截器添加token
+instance.interceptors.request.use(
+    (config) => {
+        if (localStorage.token) {
+            config.headers.Authorization = localStorage.getItem("token");
+        }
+        return config;
+    },
+    (err) => {
+        Promise.reject(err);
+    }
+);
+
 // AXIOS 实例
 const http = {
     get: instance.get,
@@ -13,16 +26,23 @@ const http = {
 };
 
 // 地址
+const INDEX = "/index";
+
 const GETLIST = "/posts/getpostlist";
-const GETCATES = "/cates/catepage";
 const GETDETAIL = "/posts/getsinglepost";
+
+const GETCATES = "/cates/catepage";
+
 const FEEDBACK = "/feedback";
+
 const SENDCODE = "/users/sendcode";
 const LOGIN = "/users/login";
 const REGIST = "/users/regist";
+const GETUSER = "/users/getsingleuser";
 
 export {
     http,
+    INDEX,
     GETLIST,
     GETCATES,
     GETDETAIL,
@@ -30,4 +50,5 @@ export {
     SENDCODE,
     LOGIN,
     REGIST,
+    GETUSER,
 };

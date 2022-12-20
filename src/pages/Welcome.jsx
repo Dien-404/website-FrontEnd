@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import regist from "../assets/regist.png";
 import login from "../assets/login.png";
+
+import { MyContext } from "../routers/index";
 
 import { http, SENDCODE, LOGIN, REGIST } from "../utils/request";
 
@@ -24,6 +27,8 @@ function MyInput(props) {
 }
 
 export default function Welcome() {
+    const { loginUser, setLoginUser } = useContext(MyContext);
+    const navigate = useNavigate();
     const [loginSeleted, setLoginSeleted] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,6 +36,7 @@ export default function Welcome() {
     const [code, setCode] = useState("");
     const [isSend, setIsSend] = useState(0);
 
+    // 处理验证码发送
     useEffect(() => {
         setTimeout(() => {
             if (isSend > 0) {
@@ -38,6 +44,16 @@ export default function Welcome() {
             }
         }, 1000);
     }, [isSend]);
+
+    // 处理已登录
+    useEffect(() => {
+        if (loginUser !== undefined) {
+            setTimeout(() => {
+                navigate("/");
+            }, 300);
+            alert("您已登录");
+        }
+    }, [loginUser]);
 
     // 处理登录注册切换
     function changeAndClear() {
@@ -58,7 +74,12 @@ export default function Welcome() {
             try {
                 const res = await http.post(LOGIN, login);
                 if (res.status === 200) {
-                    alert("login success");
+                    setTimeout(() => {
+                        navigate("/", { replace: true });
+                    });
+                    alert("登录成功");
+                    window.localStorage.setItem("token", res.data.token);
+                    setLoginUser(res.data.email);
                 }
             } catch (err) {
                 alert(err);
