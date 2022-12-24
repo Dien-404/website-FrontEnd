@@ -5,3 +5,31 @@
 br {
     user-select: none;
 }
+
+/* 入场动画 */
+.fade-exit {
+    opacity: 0;
+    transform: translateY(50px);
+}
+.fade-exit-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fade-enter-active,
+.fade-exit-active {
+    transition: all 300ms;
+}
+
+/* 提示动画 */
+.alert-enter,
+.alert-exit-active {
+    opacity: 0;
+}
+.alert-enter-active,
+.alert-exit {
+    opacity: 1;
+}
+.alert-enter-active,
+.alert-exit-active {
+    transition: all 500ms;
+}

@@ -12,12 +12,12 @@ const Scrollbar = styled.textarea`
     }
 `;
 export default function Feedback() {
-    const { loginUser } = useContext(MyContext);
+    const { loginUser, showAlert } = useContext(MyContext);
     const [contact, setContact] = useState("");
     const [content, setContent] = useState("");
 
     useEffect(() => {
-        setContact(loginUser);
+        setContact(loginUser.email ?? contact);
     }, [loginUser]);
 
     async function handleSubmit() {
@@ -26,7 +26,9 @@ export default function Feedback() {
                 /(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)*.[a-zA-Z0-9]{2,6}$)|(^1[3456789]\d{9}$)/
             ) === null
         ) {
-            alert("请输入正确的邮件格式或手机号码");
+            showAlert(2000, "请输入正确的邮件格式或手机号码");
+        } else if (content === "") {
+            showAlert(2000, "反馈内容不可为空哦");
         } else {
             const res = await http.post(FEEDBACK, {
                 action: "feedback",
@@ -34,9 +36,9 @@ export default function Feedback() {
                 text: content,
             });
             if (res.status === 200) {
-                alert("邮件发送成功");
+                showAlert(2000, "邮件发送成功");
             } else {
-                alert("邮件发送失败");
+                showAlert(2000, "邮件发送失败");
             }
         }
     }

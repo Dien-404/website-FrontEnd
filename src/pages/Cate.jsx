@@ -12,8 +12,6 @@ export default function Cate(props) {
             const res = await http.post(GETCATES);
             if (res.status === 200) {
                 setCates(res.data.data);
-            } else {
-                console.log("wrong");
             }
         })();
     }, []);

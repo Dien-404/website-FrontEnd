@@ -153,12 +153,13 @@ function MobileNavBar(props) {
 
 export default function Narbar() {
     const { loginUser } = useContext(MyContext);
+    const { email } = loginUser;
     return (
         <div className="w-full shrink-0 fixed z-30 bg-black text-gray-300 font-bold select-none duration-300">
             {/* web端 */}
-            <WebNavBar email={loginUser} />
+            <WebNavBar email={email} />
             {/* 移动端 */}
-            <MobileNavBar email={loginUser} />
+            <MobileNavBar email={email} />
         </div>
     );
 }

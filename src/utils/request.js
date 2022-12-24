@@ -35,6 +35,7 @@ const GETCATES = "/cates/catepage";
 
 const FEEDBACK = "/feedback";
 
+const VERIFYTOKEN = "users/verifytoken";
 const SENDCODE = "/users/sendcode";
 const LOGIN = "/users/login";
 const REGIST = "/users/regist";
@@ -42,7 +43,6 @@ const GETUSER = "/users/getsingleuser";
 
 export {
     http,
-    INDEX,
     GETLIST,
     GETCATES,
     GETDETAIL,
@@ -51,4 +51,5 @@ export {
     LOGIN,
     REGIST,
     GETUSER,
+    VERIFYTOKEN,
 };

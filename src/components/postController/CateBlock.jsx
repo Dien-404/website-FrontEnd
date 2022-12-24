@@ -50,8 +50,6 @@ export default function CateBlock(props) {
             const res = await http.post(GETLIST, { cate, subclass, num: 4 });
             if (res.status === 200) {
                 setPosts(res.data.data);
-            } else {
-                console.log("wrong in cateblock");
             }
         })();
     }, [cate, subclass, count]);

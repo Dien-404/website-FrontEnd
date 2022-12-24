@@ -27,7 +27,7 @@ function MyInput(props) {
 }
 
 export default function Welcome() {
-    const { loginUser, setLoginUser } = useContext(MyContext);
+    const { setLoginUser, showAlert } = useContext(MyContext);
     const navigate = useNavigate();
     const [loginSeleted, setLoginSeleted] = useState(true);
     const [email, setEmail] = useState("");
@@ -36,7 +36,7 @@ export default function Welcome() {
     const [code, setCode] = useState("");
     const [isSend, setIsSend] = useState(0);
 
-    // 处理验证码发送
+    // 处理验证码发送倒计时
     useEffect(() => {
         setTimeout(() => {
             if (isSend > 0) {
@@ -44,16 +44,6 @@ export default function Welcome() {
             }
         }, 1000);
     }, [isSend]);
-
-    // 处理已登录
-    useEffect(() => {
-        if (loginUser !== undefined) {
-            setTimeout(() => {
-                navigate("/");
-            }, 300);
-            alert("您已登录");
-        }
-    }, [loginUser]);
 
     // 处理登录注册切换
     function changeAndClear() {
@@ -67,6 +57,7 @@ export default function Welcome() {
     // 处理提交
     async function handleSubmmit() {
         if (loginSeleted) {
+            // 登录
             const login = {
                 email,
                 pwd: password,
@@ -76,15 +67,16 @@ export default function Welcome() {
                 if (res.status === 200) {
                     setTimeout(() => {
                         navigate("/", { replace: true });
-                    });
-                    alert("登录成功");
+                    }, 1000);
+                    showAlert(2000, "登录成功");
                     window.localStorage.setItem("token", res.data.token);
-                    setLoginUser(res.data.email);
+                    setLoginUser(res.data.data);
                 }
             } catch (err) {
-                alert(err);
+                showAlert(2000, "登录失败");
             }
         } else {
+            // 注册
             const regist = {
                 email,
                 pwd: password,
@@ -94,31 +86,32 @@ export default function Welcome() {
             try {
                 const res = await http.post(REGIST, regist);
                 if (res.status === 200) {
-                    alert("regist success");
+                    showAlert(2000, "注册成功");
                 }
             } catch (err) {
-                alert(err);
+                showAlert(2000, "注册失败");
             }
         }
     }
 
+    // 验证码发送
     async function handleCode() {
         if (
             email.match(
                 /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(.[a-zA-Z0-9-]+)*.[a-zA-Z0-9]{2,6}$/
             ) === null
         ) {
-            alert("邮箱格式不正确");
+            showAlert(2000, "邮箱格式不正确");
         } else {
             const res = await http.post(SENDCODE, { email });
             if (res.status === 200) {
                 setIsSend(60);
-                alert("验证码发送成功");
+                showAlert(2000, "验证码发送成功");
             } else if (res.status === 204) {
                 setIsSend(60);
-                alert("请稍后再试");
+                showAlert(2000, "请稍后再试");
             } else {
-                alert("wrong");
+                showAlert(2000, "验证码发送失败");
             }
         }
     }
