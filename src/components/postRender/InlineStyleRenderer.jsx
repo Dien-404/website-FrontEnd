@@ -13,7 +13,7 @@ function InlineStyle(props) {
     */
     return (
         <span
-            className={`whitespace-pre inline-block 
+            className={`whitespace-pre-wrap inline-block 
             ${bold === true || italic === true ? "text-blue-500" : ""}
             ${bold === true ? "font-bold" : ""}
             ${italic === true ? "italic" : ""}

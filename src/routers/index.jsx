@@ -16,6 +16,10 @@ const App = lazy(() => {
     return import("../pages/App");
 });
 
+const Temp = lazy(() => {
+    return import("../pages/Temp");
+});
+
 // 主页
 const Home = lazy(() => {
     return import("../pages/Home");
@@ -161,6 +165,8 @@ export default function Router() {
             <Routes>
                 {/* 默认页 */}
                 <Route path="/" element={<App />}>
+                    {/* 测试 */}
+                    <Route path="temp" element={<Temp />} />
                     {/* 主页 */}
                     <Route index element={<Home />} />
                     {/* 分类 */}
