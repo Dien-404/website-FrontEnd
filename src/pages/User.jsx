@@ -81,13 +81,13 @@ export default function User() {
             </div>
             {/* 头像 */}
             <div
-                className="flex justify-center items-center w-28 h-28 rounded-full ring-1"
+                className="flex justify-center items-center w-28 h-28 rounded-full ring-1 ring-rose-300"
                 onClick={() => {
                     // URL
                 }}
             />
             <label>头像</label>
-            <div className="flex flex-col my-10">
+            <div className="flex flex-col my-10 items-center">
                 <div className="flex flex-row my-1">
                     <label className="mr-2 flex items-center">昵称</label>
                     <input
@@ -99,16 +99,13 @@ export default function User() {
                         }}
                     />
                 </div>
-                <div className="flex flex-row my-1">
-                    <label className="mr-2 flex items-center">密码</label>
-                    <input
-                        type="password"
-                        className="ring-1 p-1 ring-rose-300 focus:ring-2 focus:rounded outline-none duration-300"
-                        value={userPwd}
-                        onChange={(e) => {
-                            setUserPwd(e.target.value);
-                        }}
-                    />
+                <div className="flex flex-row my-1 text-gray-400">
+                    <label className="mr-2 flex items-center">
+                        想要修改密码，请点击
+                    </label>
+                    <div className="underline cursor-pointer hover:text-black duration-300">
+                        here
+                    </div>
                 </div>
             </div>
             <div className="flex flex-row">

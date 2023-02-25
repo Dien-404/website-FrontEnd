@@ -5,6 +5,7 @@ import { useDebounceEffect } from "ahooks";
 // 渲染函数导入
 import { renderBlockNode } from "../../utils/renderFunction";
 import { FileUpload, PictureUpload } from "../../assets/SVG";
+import { http, PICTUREUPLOAD } from "../../utils/request";
 // 组件导入
 import Post from "./Post";
 
@@ -117,7 +118,22 @@ export default function Edit() {
                     setInputBG(reader.result);
                 };
             } else {
-                alert("wrong");
+                alert("wrong file type");
+            }
+        }
+    }
+
+    // 处理上传图片并获取图片地址
+    async function handlePicUpload(e) {
+        if (e.target.files.length !== 0) {
+            const formData = new FormData();
+            formData.append("avater", e.target.files[0]);
+            console.log(formData);
+            // 检测文件类型
+            // 发送请求
+            const res = await http.post(PICTUREUPLOAD, formData);
+            if (res.status === 200) {
+                console.log("ok");
             }
         }
     }
@@ -223,7 +239,7 @@ export default function Edit() {
                             {/* label */}
                             <span className="mr-2">文章内容:</span>
                             {/* 文件读取 */}
-                            <span className="relative hidden md:flex p-1 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none rounded overflow-hidden">
+                            <span className="relative hidden md:flex p-1 mr-2 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none rounded overflow-hidden">
                                 <FileUpload />
                                 <input
                                     type="file"
@@ -231,6 +247,18 @@ export default function Edit() {
                                     className="absolute top-0 left-0 w-full h-full opacity-0"
                                     onChange={(e) => {
                                         handleFileUpload(e);
+                                    }}
+                                />
+                            </span>
+                            {/* 后台返回图片地址 */}
+                            <span className="relative hidden md:flex p-1 mr-2 ring-1 ring-blue-300 hover:bg-blue-300 duration-300 select-none rounded overflow-hidden">
+                                <PictureUpload />
+                                <input
+                                    type="file"
+                                    accept=".jpg,.jpeg,.png"
+                                    className="absolute top-0 left-0 w-full h-full opacity-0"
+                                    onChange={(e) => {
+                                        handlePicUpload(e);
                                     }}
                                 />
                             </span>

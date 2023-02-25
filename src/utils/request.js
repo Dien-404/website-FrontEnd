@@ -26,14 +26,15 @@ const http = {
 };
 
 // 地址
-const INDEX = "/index";
 
 const GETLIST = "/posts/getpostlist";
 const GETDETAIL = "/posts/getsinglepost";
-
+const POSTVISIT = "/posts/visit";
 const GETCATES = "/cates/catepage";
 
 const FEEDBACK = "/feedback";
+
+const PICTUREUPLOAD = "/upload";
 
 const VERIFYTOKEN = "users/verifytoken";
 const SENDCODE = "/users/sendcode";
@@ -41,15 +42,21 @@ const LOGIN = "/users/login";
 const REGIST = "/users/regist";
 const GETUSER = "/users/getsingleuser";
 
+const GETUSERLIKELIST = "/users/getuserlikelist";
+const USERLIKETHEPOST = "/users/userlikethepost";
 export {
     http,
     GETLIST,
     GETCATES,
     GETDETAIL,
+    POSTVISIT,
     FEEDBACK,
     SENDCODE,
     LOGIN,
     REGIST,
     GETUSER,
     VERIFYTOKEN,
+    PICTUREUPLOAD,
+    GETUSERLIKELIST,
+    USERLIKETHEPOST,
 };

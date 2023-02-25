@@ -23,7 +23,7 @@ function Visit(props) {
 
 // Post
 function Like(props) {
-    const { isLike, setIsLike, setReLike } = props;
+    const { isLike, handleUserLike } = props;
     return (
         <svg
             t="1670683304870"
@@ -34,12 +34,7 @@ function Like(props) {
             width="20"
             height="20"
             onClick={() => {
-                if (isLike) {
-                    setReLike((pre) => pre - 1);
-                } else {
-                    setReLike((pre) => pre + 1);
-                }
-                setIsLike((pre) => !pre);
+                handleUserLike();
             }}
         >
             <path

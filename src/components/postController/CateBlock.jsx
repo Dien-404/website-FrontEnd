@@ -56,7 +56,7 @@ export default function CateBlock(props) {
 
     return (
         <div
-            className="flex flex-col mt-6 max-w-md sm:max-w-none"
+            className="flex flex-col w-full mt-6 max-w-md sm:max-w-none"
             key={subclass}
         >
             {/* title && More */}

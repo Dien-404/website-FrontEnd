@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "../../utils/timeTransfer";
-import { http, GETDETAIL } from "../../utils/request";
+import {
+    http,
+    GETDETAIL,
+    GETUSERLIKELIST,
+    USERLIKETHEPOST,
+    POSTVISIT,
+} from "../../utils/request";
+import { MyContext } from "../../routers/index";
 import { Like, Visit } from "../../assets/SVG";
 
 import Content from "../basic/Content";
@@ -11,28 +18,62 @@ import Paragraph from "../postRender/Paragraph";
 import Title from "../postRender/Title";
 
 export default function Post(props) {
+    const { loginUser } = useContext(MyContext);
     const { _id } = useParams();
     // 文章信息
     const [post, setPost] = useState({});
 
-    // fetch data
+    // 交互like
+    const [reLike, setReLike] = useState(0);
+
+    // 当前用户是否喜欢
+    const [isLike, setIsLike] = useState(false);
+
+    // fetch post data
     useEffect(() => {
+        // 帖子访问量计时器
+        var postTimeout = null;
         (async () => {
             if (_id !== undefined) {
                 const res = await http.post(GETDETAIL, {
                     _id,
                 });
+                // 成功获取帖子
                 if (res.status === 200) {
+                    // 帖子实例对象赋值
                     setPost(res.data.data);
+                    // 更正帖子点赞信息
+                    setReLike(res.data.data.like);
+                    // 帖子访问量计时器赋值
+                    postTimeout = setTimeout(() => {
+                        http.post(POSTVISIT, { _id });
+                    }, 5000);
                 } else {
                     console.log("wrong in post");
                 }
             }
         })();
+        return () => {
+            clearTimeout(postTimeout);
+        };
     }, [_id]);
 
-    // 当前用户是否喜欢
-    const [isLike, setIsLike] = useState(false);
+    // 获取用户点赞列表，判断列表是否存在该帖子
+    useEffect(() => {
+        (async () => {
+            // 已登录
+            if (loginUser.email !== undefined) {
+                const res = await http.post(GETUSERLIKELIST);
+                if (res.status === 200) {
+                    const { likeList } = res.data.data;
+                    const set = new Set(likeList);
+                    if (set.has(_id)) {
+                        setIsLike(true);
+                    }
+                }
+            }
+        })();
+    }, [loginUser, _id]);
 
     // 解构赋值
     const {
@@ -47,8 +88,29 @@ export default function Post(props) {
         // commet,
     } = _id === undefined ? props : post;
 
-    // 交互like
-    const [reLike, setReLike] = useState(like === undefined ? 0 : like);
+    // 处理用户点赞行为
+    const handleUserLike = async () => {
+        // 处理图标(未登录也适用)
+        if (isLike) {
+            setReLike((pre) => pre - 1);
+        } else {
+            setReLike((pre) => pre + 1);
+        }
+        setIsLike((pre) => !pre);
+
+        // 判断登录
+        if (loginUser.email !== undefined && _id !== undefined) {
+            // 点赞请求
+            const res = await http.post(USERLIKETHEPOST, {
+                _id,
+            });
+            if (res.status === 200) {
+                // 成功
+            } else {
+                // 失败
+            }
+        }
+    };
 
     return (
         <div className="h-full flex flex-col items-center">
@@ -108,8 +170,7 @@ export default function Post(props) {
                                     <span className="flex flex-row cursor-pointer">
                                         <Like
                                             isLike={isLike}
-                                            setIsLike={setIsLike}
-                                            setReLike={setReLike}
+                                            handleUserLike={handleUserLike}
                                         />
                                         <span className="ml-1">{reLike}</span>
                                     </span>
