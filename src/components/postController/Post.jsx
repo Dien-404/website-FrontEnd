@@ -16,6 +16,7 @@ import Code from "../postRender/Code";
 import List from "../postRender/List";
 import Paragraph from "../postRender/Paragraph";
 import Title from "../postRender/Title";
+import CommentFrame from "./CommentFrame";
 
 export default function Post(props) {
     const { loginUser } = useContext(MyContext);
@@ -82,10 +83,9 @@ export default function Post(props) {
         description,
         background,
         value,
-        like,
         visit,
         createTime,
-        // commet,
+        comment,
     } = _id === undefined ? props : post;
 
     // 处理用户点赞行为
@@ -104,6 +104,7 @@ export default function Post(props) {
             const res = await http.post(USERLIKETHEPOST, {
                 _id,
             });
+            // 以下判断无处理意义
             if (res.status === 200) {
                 // 成功
             } else {
@@ -240,6 +241,13 @@ export default function Post(props) {
                             }
                         })}
                     </div>
+
+                    {/* 评论 */}
+                    <div className="mt-5"></div>
+                    <CommentFrame
+                        email={loginUser?.email}
+                        commentId={comment}
+                    />
                 </Content>
             )}
         </div>

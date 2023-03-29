@@ -30,6 +30,9 @@ const http = {
 const GETLIST = "/posts/getpostlist";
 const GETDETAIL = "/posts/getsinglepost";
 const POSTVISIT = "/posts/visit";
+const GETCOMMENTLIST = "/posts/getCommentList";
+const COMMENT = "/posts/comment";
+
 const GETCATES = "/cates/catepage";
 
 const FEEDBACK = "/feedback";
@@ -59,4 +62,6 @@ export {
     PICTUREUPLOAD,
     GETUSERLIKELIST,
     USERLIKETHEPOST,
+    GETCOMMENTLIST,
+    COMMENT,
 };

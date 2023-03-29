@@ -41,7 +41,7 @@ export default function User() {
     // 重定向
     const navigate = useNavigate();
     // Mycontext读取
-    const { loginUser, setLoginUser } = useContext(MyContext);
+    const { loginUser, setLoginUser, showAlert } = useContext(MyContext);
     const [user, setUser] = useState({});
     const { email, photo, name } = user;
     const [userName, setUserName] = useState(name);
@@ -58,7 +58,7 @@ export default function User() {
             // 重导航
             navigate("/welcome");
         }, 300);
-        alert("注销成功");
+        showAlert(2000, "注销成功");
     }
 
     // 仅从 MyContext 中读取 userContext 获取用户信息

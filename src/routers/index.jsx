@@ -117,7 +117,6 @@ export default function Router() {
             // 用户路径监听
             if (email === undefined || email === "") {
                 navigate("/welcome");
-                showAlert(2000, "您还未登录");
             }
         } else if (location.pathname.startsWith("/admin")) {
             // 管理路径监听
@@ -128,10 +127,9 @@ export default function Router() {
         } else if (location.pathname.startsWith("/welcome")) {
             if (email !== undefined) {
                 navigate("/user");
-                showAlert(2000, "您已登录账号");
             }
         }
-    }, [location.pathname]);
+    }, [location.pathname, email]);
 
     // 监听 TOKEN 及 loginUser
     useEffect(() => {

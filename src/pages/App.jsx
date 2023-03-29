@@ -7,6 +7,7 @@ import ICP from "../components/basic/ICP";
 
 export default function App() {
     const location = useLocation();
+
     return (
         <div
             className={`w-full h-screen max-h-screen flex flex-col items-center font-serif
@@ -19,7 +20,7 @@ export default function App() {
                 className={`w-full h-full flex flex-col justify-between grow mt-11 sm:mt-14 overflow-y-scroll sm:overflow-visible`}
             >
                 <div className="grow">
-                    <SwitchTransition mode="out-in">
+                    {/* <SwitchTransition mode="out-in">
                         <CSSTransition
                             appear
                             key={location.key}
@@ -29,7 +30,8 @@ export default function App() {
                         >
                             <Outlet />
                         </CSSTransition>
-                    </SwitchTransition>
+                    </SwitchTransition> */}
+                    <Outlet />
                 </div>
                 {/* ICP */}
                 <ICP />
