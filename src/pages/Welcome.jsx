@@ -73,7 +73,12 @@ export default function Welcome() {
                     setLoginUser(res.data.data);
                 }
             } catch (err) {
-                showAlert(2000, "登录失败");
+                const errMessage = err?.response?.data?.err;
+                if (errMessage !== undefined || errMessage !== "") {
+                    showAlert(2000, errMessage);
+                } else {
+                    showAlert(2000, "登录失败");
+                }
             }
         } else {
             // 注册
@@ -87,6 +92,7 @@ export default function Welcome() {
                 const res = await http.post(REGIST, regist);
                 if (res.status === 200) {
                     showAlert(2000, "注册成功");
+                    setLoginSeleted((pre) => !pre);
                 }
             } catch (err) {
                 showAlert(2000, "注册失败");

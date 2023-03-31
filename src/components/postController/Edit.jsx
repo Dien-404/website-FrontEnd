@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDebounceEffect } from "ahooks";
+import { Cascader } from "antd";
 // 依赖导入
 // 渲染函数导入
+import { MyContext } from "../../routers/index";
 import { renderBlockNode } from "../../utils/renderFunction";
 import { FileUpload, PictureUpload } from "../../assets/SVG";
-import { http, PICTUREUPLOAD } from "../../utils/request";
+import {
+    http,
+    PICTUREUPLOAD,
+    GETUSER,
+    GETCATES,
+    CREATEPOST,
+} from "../../utils/request";
 // 组件导入
 import Post from "./Post";
+import { Navigate } from "react-router-dom";
 
 // 美化 markdown 文本textarea
 const BeautifyTextarea = styled.textarea`
@@ -57,6 +67,8 @@ function LabelAndTextInput(props) {
 }
 
 export default function Edit() {
+    const navigate = useNavigate();
+    const { showAlert } = useContext(MyContext);
     // 以下变量可放入一个对象内，可读性更强，但此处解构出来使用
     // 文章标题
     const [inputTitle, setInputTitle] = useState("文章主标题");
@@ -88,6 +100,8 @@ export default function Edit() {
     const [cate, setCate] = useState("其他");
     // 小类
     const [subclass, setSubclass] = useState("未分类");
+    // 级联选择 options
+    const [options, setOptions] = useState([]);
 
     // 处理 markdown 文本文件输入
     function handleFileUpload(e) {
@@ -123,23 +137,65 @@ export default function Edit() {
         }
     }
 
+    async function copyContent(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            /* Resolved - 文本被成功复制到剪贴板 */
+        } catch (err) {
+            console.error("Failed to copy: ", err);
+            console.log(text);
+            /* Rejected - 文本未被复制到剪贴板 */
+        }
+    }
+
     // 处理上传图片并获取图片地址
     async function handlePicUpload(e) {
         if (e.target.files.length !== 0) {
             const formData = new FormData();
             formData.append("avater", e.target.files[0]);
-            console.log(formData);
-            // 检测文件类型
             // 发送请求
             const res = await http.post(PICTUREUPLOAD, formData);
             if (res.status === 200) {
-                console.log("ok");
+                const src = res.data.src;
+                copyContent(src);
             }
         }
     }
 
+    // 获取分类
+    async function getCates() {
+        try {
+            const res = await http.post(GETCATES);
+            if (res.status === 200) {
+                // 处理元数据
+                const data = res.data.data;
+                let result = [];
+                data.map((cate) => {
+                    let obj1 = {};
+                    obj1["label"] = cate.cate;
+                    obj1["value"] = cate.cate;
+                    obj1["children"] = [];
+                    cate.details.map((subclass) => {
+                        let obj2 = {};
+                        obj2["label"] = subclass.subclass;
+                        obj2["value"] = subclass.subclass;
+                        obj1["children"].push(obj2);
+                    });
+                    result.push(obj1);
+                });
+                setOptions(result);
+            }
+        } catch {}
+    }
+
+    // 更改选择的分类
+    function changeCateSelete(value, selectedOptions) {
+        setCate(value[0]);
+        setSubclass(value[1]);
+    }
+
     // 处理表单提交
-    function handleSubmit() {
+    async function handleSubmit() {
         const submit = {
             title,
             tag,
@@ -149,7 +205,20 @@ export default function Edit() {
             cate,
             subclass,
         };
-        console.log(JSON.stringify(submit));
+        try {
+            const res = await http.post(CREATEPOST, submit);
+            if (res.status === 200) {
+                showAlert(1000, "成功发布，正在为您跳转");
+                setTimeout(() => {
+                    navigate("/");
+                }, 1500);
+            } else {
+                showAlert(2000, "创建失败");
+            }
+        } catch (err) {
+            showAlert(2000, "创建失败");
+            console.log(err);
+        }
     }
 
     // ahooks 防抖
@@ -167,6 +236,32 @@ export default function Edit() {
             wait: 500,
         }
     );
+
+    function rejectVisit() {
+        navigate("/");
+        showAlert(2000, "权限受限");
+    }
+
+    async function fetchUserData() {
+        try {
+            const res = await http.post(GETUSER);
+            if (res.status !== 200) {
+                rejectVisit();
+            }
+        } catch {
+            rejectVisit();
+        }
+    }
+
+    // 权限管理
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    // 获取分类列表
+    useEffect(() => {
+        getCates();
+    }, []);
 
     return (
         <div className="h-full flex flex-row">
@@ -202,6 +297,17 @@ export default function Edit() {
                         maxLength={40}
                         rows={1}
                     />
+                    {/* 分类 */}
+                    <div className="flex mb-2 items-center">
+                        <label className="select-none mr-2">分类列表</label>
+                        <div className="">
+                            <Cascader
+                                options={options}
+                                onChange={changeCateSelete}
+                                placeholder={"不选择则默认选项"}
+                            />
+                        </div>
+                    </div>
                     {/* 文章图片url */}
                     <div className="flex flex-row justify-center items-center">
                         <div className="grow">

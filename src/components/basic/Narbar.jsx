@@ -103,7 +103,7 @@ function MobileNavBar(props) {
                 {/* 用户 */}
                 <div className="w-20 flex flex-row justify-end">
                     {/* 通知 */}
-                    <Link
+                    {/* <Link
                         className="mx-1 p-1"
                         to={email !== undefined ? "/user/notice" : "/welcome"}
                         onClick={() => {
@@ -111,7 +111,7 @@ function MobileNavBar(props) {
                         }}
                     >
                         <Notice />
-                    </Link>
+                    </Link> */}
                     {/* 账户 */}
                     <Link
                         className="mx-1 p-1"

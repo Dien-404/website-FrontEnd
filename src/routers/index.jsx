@@ -111,26 +111,6 @@ export default function Router() {
         }, keeptime);
     };
 
-    // 监听路由地址，导航守卫
-    useEffect(() => {
-        if (location.pathname.startsWith("/user")) {
-            // 用户路径监听
-            if (email === undefined || email === "") {
-                navigate("/welcome");
-            }
-        } else if (location.pathname.startsWith("/admin")) {
-            // 管理路径监听
-            if (email === undefined || email === "" || auth < 5) {
-                navigate("/");
-                showAlert(2000, "您不具有相关权限");
-            }
-        } else if (location.pathname.startsWith("/welcome")) {
-            if (email !== undefined) {
-                navigate("/user");
-            }
-        }
-    }, [location.pathname, email]);
-
     // 监听 TOKEN 及 loginUser
     useEffect(() => {
         (async () => {
@@ -141,11 +121,19 @@ export default function Router() {
                 const res = await http.post(VERIFYTOKEN);
                 if (res.status === 200) {
                     setLoginUser(res.data.data);
-                    console.log(res.data.data);
                 }
             }
         })();
     }, [email]);
+
+    // 监听路由地址，导航守卫
+    useEffect(() => {
+        if (location.pathname.startsWith("/welcome")) {
+            if (email !== undefined) {
+                navigate("/");
+            }
+        }
+    }, [location.pathname, email]);
 
     return (
         <MyContext.Provider value={{ loginUser, setLoginUser, showAlert }}>
@@ -165,6 +153,7 @@ export default function Router() {
                 <Route path="/" element={<App />}>
                     {/* 测试 */}
                     <Route path="temp" element={<Temp />} />
+
                     {/* 主页 */}
                     <Route index element={<Home />} />
                     {/* 分类 */}
@@ -195,13 +184,13 @@ export default function Router() {
                     <Route
                         index
                         element={
-                            <div className="flex grow justify-center items-center">
+                            <div className="flex grow w-full h-full justify-center items-center">
                                 暂未选择功能项
                             </div>
                         }
                     />
-                    <Route path="web" element={<WebControl />} />
-                    <Route path="webdata" element={<WebData />} />
+                    {/* <Route path="web" element={<WebControl />} /> */}
+                    {/* <Route path="webdata" element={<WebData />} /> */}
                     <Route path="user" element={<UserControl />} />
                     <Route path="post" element={<PostControl />} />
                     <Route path="*" element={<Navigate to="/admin" />} />

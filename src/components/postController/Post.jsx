@@ -243,11 +243,16 @@ export default function Post(props) {
                     </div>
 
                     {/* 评论 */}
-                    <div className="mt-5"></div>
-                    <CommentFrame
-                        email={loginUser?.email}
-                        commentId={comment}
-                    />
+                    <div
+                        className={`mt-5 ${
+                            _id === undefined ? "hidden" : "block"
+                        }`}
+                    >
+                        <CommentFrame
+                            email={loginUser?.email}
+                            commentId={comment}
+                        />
+                    </div>
                 </Content>
             )}
         </div>
